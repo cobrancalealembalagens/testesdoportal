@@ -1166,7 +1166,17 @@ function abrirModalWhatsApp(b){
 
   document.getElementById('wsp-telefone').value = '';
   
-  const msg = `Olá, *${cliente}*!\n\nTudo bem? Passando para lembrar sobre o título em aberto:\n\n📄 *Nota Fiscal:* ${b.nf}\n🔢 *Parcela:* ${b.parcela}\n💰 *Valor:* ${formatMoney(b.valor)}\n📅 *Vencimento:* ${venc}\n\nSe precisar do arquivo do boleto ou de qualquer auxílio, é só me avisar por aqui!\n\nAtenciosamente,\n*${repNome}* — Leal Embalagens`;
+  let linkPdf = '';
+  if (b.downloadUrl) {
+    const match = String(b.downloadUrl).match(/id=([^&]+)/);
+    if (match) {
+      linkPdf = `\n🔗 *Baixar Boleto (PDF):*\nhttps://drive.google.com/file/d/${match[1]}/view\n`;
+    } else {
+      linkPdf = `\n🔗 *Baixar Boleto (PDF):*\n${b.downloadUrl}\n`;
+    }
+  }
+
+  const msg = `Olá, *${cliente}*!\n\nTudo bem? Passando para lembrar sobre o título em aberto:\n\n📄 *Nota Fiscal:* ${b.nf}\n🔢 *Parcela:* ${b.parcela}\n💰 *Valor:* ${formatMoney(b.valor)}\n📅 *Vencimento:* ${venc}\n${linkPdf}\nSe precisar de qualquer auxílio, é só me avisar por aqui!\n\nAtenciosamente,\n*${repNome}* — Leal Embalagens`;
 
   document.getElementById('wsp-mensagem').value = msg;
   document.getElementById('modal-whatsapp').classList.remove('hidden');
