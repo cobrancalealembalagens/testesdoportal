@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23002f6c'/><text x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>"/>
+<title>Portal de Boletos — Leal</title>
+<style>
+html{scroll-behavior:smooth;}
+:root {  --bg-gradient: linear-gradient(135deg,#132743 0%,#1b3f6e 40%,#1e5490 70%,#1a6b8a 100%);
+  --card-bg:#fff; --card-bg2:#f8f9fb; --text-1:#1a1a1a; --text-2:#666;
+  --text-hdr:#fff; --border:#e5e5e5; --input-bd:#ddd; --focus:#0057b8;
+  --btn-bg:#0057b8; --btn-color:#fff; --sair-bg:#fff; --sair-color:#0057b8;
+  --hdr-btn:rgba(255,255,255,.18); --hdr-btn-bd:rgba(255,255,255,.3); --hdr-btn-color:#fff;
+  --row-hover:#fafafa; --modal-overlay:rgba(0,20,60,.55); --modal-bg:#fff;
+  --bp-bg:#fff3cd; --bp-c:#856404; --bpg-bg:#d1e7dd; --bpg-c:#0a6640;
+  --bv-bg:#f8d7da; --bv-c:#842029; --bn-bg:#eee; --bn-c:#999;
+  --export-bg:#1a7a4a;
+}
+[data-theme="dark"]{
+  --bg-gradient:linear-gradient(135deg,#001020 0%,#001a3a 45%,#002050 80%,#002d60 100%);
+  --card-bg:#1a2235; --card-bg2:#141c2e; --text-1:#dde4f0; --text-2:#7a8fa8;
+  --text-hdr:#dde4f0; --border:#2a3550; --input-bd:#2a3550; --focus:#4a9af0;
+  --btn-bg:#1a6fd4; --btn-color:#fff; --sair-bg:#1e2d47; --sair-color:#60a8f0;
+  --hdr-btn:rgba(255,255,255,.1); --hdr-btn-bd:rgba(255,255,255,.2); --hdr-btn-color:#dde4f0;
+  --row-hover:#1f2d45; --modal-overlay:rgba(0,8,24,.72); --modal-bg:#1a2235;
+  --bp-bg:#3a2e0a; --bp-c:#f0c060; --bpg-bg:#0a2e1a; --bpg-c:#60c090;
+  --bv-bg:#2e0a0a; --bv-c:#f08080; --bn-bg:#2a3550; --bn-c:#7a8fa8;
+  --export-bg:#155e38;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text-1);min-height:100vh;background:var(--bg-gradient);transition:background .4s,color .4s;}
+.container{max-width:960px;margin:0 auto;padding:2rem 1rem;}
+.card{background:var(--card-bg);border-radius:12px;border:1px solid var(--border);padding:1.5rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:background .4s,border-color .4s;}
+h1{font-size:20px;font-weight:600;}
+label{font-size:12px;color:var(--text-2);display:block;margin-bottom:4px;transition:color .4s;}
+input,select{width:100%;padding:8px 12px;border:1px solid var(--input-bd);border-radius:8px;font-size:14px;outline:none;background:var(--card-bg);color:var(--text-1);transition:background .4s,border-color .4s,color .4s;}
+input:focus,select:focus{border-color:var(--focus);box-shadow:0 0 0 3px rgba(0,87,184,.12);}
+button{padding:8px 20px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);font-size:14px;cursor:pointer;color:var(--text-1);font-family:inherit;transition:background .2s,color .2s,border-color .4s,opacity .2s;}
+.btn-primary{background:var(--btn-bg)!important;color:var(--btn-color)!important;border-color:var(--btn-bg)!important;}
+.btn-primary:hover{opacity:.88;}
+.btn-danger{color:#c0392b!important;border-color:#f5c6cb!important;}
+.btn-wsp{background:#25D366!important;color:#fff!important;border-color:#25D366!important;font-weight:600;}
+.btn-wsp:hover{opacity:.88;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;}
+.grid-5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:12px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text-2);font-weight:500;font-size:12px;transition:color .4s,border-color .4s;}
+td{padding:10px 10px;border-bottom:1px solid var(--border);color:var(--text-1);transition:color .4s,border-color .4s;}
+tr:hover td{background:var(--row-hover);}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500;}
+.badge-pendente{background:var(--bp-bg);color:var(--bp-c);}
+.badge-pago{background:var(--bpg-bg);color:var(--bpg-c);}
+.badge-vencido{background:var(--bv-bg);color:var(--bv-c);}
+.badge-none{background:var(--bn-bg);color:var(--bn-c);}
+.badge-cobrado{background:#dbeafe;color:#1d4ed8;}
+.badge-negativado{background:#fce7f3;color:#9d174d;}
+.badge-protestado{background:#fef3c7;color:#92400e;}
+[data-theme="dark"] .badge-cobrado{background:#1e3a6e;color:#93c5fd;}
+[data-theme="dark"] .badge-negativado{background:#4a1030;color:#f9a8d4;}
+[data-theme="dark"] .badge-protestado{background:#3a2a00;color:#fcd34d;}
+.msg-erro{background:#f8d7da;color:#842029;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;}
+.msg-ok{background:#d1e7dd;color:#0a6640;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;}
+.tabs{display:flex;gap:4px;margin-bottom:1rem;flex-wrap:wrap;}
+.tab{font-size:13px;padding:6px 14px;border-radius:8px;border:none;background:var(--card-bg);cursor:pointer;color:var(--text-1);box-shadow:0 2px 6px rgba(0,0,0,.08);font-weight:500;transition:all .2s;}
+.tab.active{background:var(--card-bg);color:var(--focus);font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.08), inset 0 0 0 2px var(--focus);}
+[data-theme="dark"] .tab.active{background:var(--card-bg);color:#93c5fd;box-shadow:0 2px 6px rgba(0,0,0,.08), inset 0 0 0 2px #93c5fd;}
+.tab:hover:not(.active){background:var(--card-bg2);opacity:.9;}
+.pagination{display:flex;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap;}
+.btn-page{padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-1);font-size:13px;cursor:pointer;transition:all .2s;}
+.btn-page.active{background:var(--btn-bg);color:var(--btn-color);border-color:var(--btn-bg);font-weight:bold;}
+.btn-page:hover:not(.active){background:var(--row-hover);}
+.hidden{display:none!important;}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:8px;flex-wrap:wrap;}
+.header-logo{height:56px;border-radius:8px;box-shadow:0 3px 12px rgba(0,0,0,.25);flex-shrink:0;}
+.header-title{text-align:center;flex:1;}
+.header-title h1{color:var(--text-hdr);text-shadow:0 1px 6px rgba(0,0,0,.3);transition:color .4s;}
+.header-title p{font-size:12px;color:rgba(255,255,255,.8);margin-top:2px;}
+.header-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+.btn-hdr{background:var(--hdr-btn);color:var(--hdr-btn-color);border:1px solid var(--hdr-btn-bd);border-radius:8px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.btn-hdr:hover{background:rgba(255,255,255,.28);}
+.btn-sair{background:var(--sair-bg);color:var(--sair-color);border:1px solid var(--sair-bg);font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+.btn-sair:hover{opacity:.88;}
+.header-toolbar{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;}
+.loading{text-align:center;padding:2rem;color:var(--text-2);font-size:14px;}
+.login-card-wrap{max-width:380px;margin:3rem auto;}
+.login-logo-wrap{text-align:center;margin-bottom:1.5rem;}
+.login-logo{height:68px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.login-title{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.3);margin-top:14px;}
+.login-sub{font-size:13px;color:rgba(255,255,255,.75);margin-top:4px;}
+.overlay{position:fixed;inset:0;background:var(--modal-overlay);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.popup-box,.modal-box{background:var(--modal-bg);border-radius:16px;box-shadow:0 16px 56px rgba(0,0,0,.3);padding:36px 38px 30px;max-width:460px;width:92%;animation:popIn .25s ease;transition:background .4s;}
+.modal-box{max-width:400px;padding:28px 32px;}
+@keyframes popIn{from{opacity:0;transform:scale(.94) translateY(14px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.popup-box img{display:block;margin:0 auto 18px;height:54px;border-radius:8px;}
+.popup-box h2,.modal-box h2{font-size:1.15rem;font-weight:700;color:var(--text-1);text-align:center;margin-bottom:12px;}
+.popup-box p{font-size:.9rem;color:var(--text-2);line-height:1.6;text-align:center;margin-bottom:8px;}
+.popup-list{list-style:none;margin:12px 0 18px;padding:0;}
+.popup-list li{font-size:.88rem;color:var(--text-1);padding:7px 12px 7px 34px;position:relative;background:#f0f6ff;border-radius:8px;margin-bottom:6px;}
+[data-theme="dark"] .popup-list li{background:#1f2e48;}
+.popup-list li::before{content:'✓';position:absolute;left:11px;color:#0057b8;font-weight:800;}
+.popup-note{font-size:.75rem;color:#aaa;text-align:center;margin-top:4px;}
+.btn-popup{display:block;width:100%;background:linear-gradient(90deg,#002f6c,#0057b8);color:#fff;border:none;border-radius:10px;padding:13px;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:18px;font-family:inherit;transition:opacity .18s;}
+.btn-popup:hover{opacity:.88;}
+.export-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap;}
+.btn-export{background:var(--export-bg);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.btn-export:hover{opacity:.88;}
+.fonte-toggle{display:flex;gap:0;border-radius:8px;overflow:hidden;border:1.5px solid var(--btn-bg);margin-bottom:14px;width:fit-content;}
+.fonte-btn{padding:7px 18px;font-size:13px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--btn-bg);font-family:inherit;transition:background .18s,color .18s;}
+.fonte-btn.active{background:var(--btn-bg);color:#fff;}
+.fonte-btn:first-child{border-right:1.5px solid var(--btn-bg);}
+[data-theme="dark"] .fonte-toggle{border-color:#4a9af0;}
+[data-theme="dark"] .fonte-btn{color:#4a9af0;}
+[data-theme="dark"] .fonte-btn.active{background:#1a6fd4;color:#fff;}
+[data-theme="dark"] .fonte-btn:first-child{border-right-color:#4a9af0;}
+.btn-bulk-delete{background:#c0392b;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .18s;}
+.btn-bulk-delete:hover{opacity:.85;}
+.bulk-actions{display:flex;align-items:center;gap:10px;}
+input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--btn-bg);}
+th input[type=checkbox]{margin:0;}
+td.col-check{width:32px;text-align:center;}
+th.col-check{width:32px;text-align:center;}
+tr.row-selected td{background:rgba(0,87,184,.07)!important;}
+[data-theme="dark"] tr.row-selected td{background:rgba(100,160,255,.08)!important;}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.view-toggle{display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);width:fit-content;margin-bottom:10px;}
+.view-btn{padding:6px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--text-2);font-family:inherit;transition:background .15s,color .15s;display:flex;align-items:center;gap:5px;}
+.view-btn.active{background:var(--btn-bg);color:#fff;}
+.view-btn:first-child{border-right:1px solid var(--border);}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.boleto-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s,background .4s;}
+.boleto-card:hover{border-color:var(--focus);}
+.boleto-card.card-selected{border-color:var(--btn-bg);background:rgba(0,87,184,.04);}
+[data-theme="dark"] .boleto-card.card-selected{background:rgba(100,160,255,.07);}
+.bc-header{display:flex;align-items:center;gap:8px;padding:12px 14px 0;}
+.bc-nf{font-size:14px;font-weight:600;color:var(--text-1);flex:1;}
+.bc-body{padding:6px 14px 10px 38px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.bc-left{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;}
+.bc-client{font-size:13px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bc-cnpj{font-size:11px;color:var(--text-2);cursor:pointer;border-bottom:1px dashed var(--border);}
+.bc-cnpj:hover{color:var(--btn-bg);}
+.bc-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+.bc-val{font-size:15px;font-weight:600;color:var(--text-1);}
+.bc-venc{font-size:12px;color:var(--text-2);}
+.bc-venc.warn{color:#d97706;font-weight:500;}
+.bc-venc.danger{color:#dc2626;font-weight:500;}
+.bc-footer{border-top:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.bc-rep{font-size:12px;color:var(--text-2);}
+.bc-actions{display:flex;gap:6px;}
+.bc-btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--card-bg);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-1);display:flex;align-items:center;gap:4px;transition:background .15s;}
+.bc-btn:hover{background:var(--card-bg2);}
+.bc-btn.danger{color:#c0392b;border-color:#f5c6cb;}
+.bc-btn:disabled{opacity:.4;cursor:default;}
+.cards-total{text-align:right;font-size:12px;color:var(--text-2);padding:8px 2px;}
+.spinner-wrap{text-align:center;padding:2rem;}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--btn-bg);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner-wrap p{color:var(--text-2);font-size:14px;margin-top:4px;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.card{animation:slideUp .35s ease both;}
+td{transition:background .18s;}
+tbody tr:hover td{background:var(--row-hover);}
+.th-sort{cursor:pointer;user-select:none;white-space:nowrap;}
+.th-sort:hover{color:var(--btn-bg);}
+.sort-icon{margin-left:4px;opacity:.5;font-size:10px;}
+.th-sort.asc .sort-icon::after{content:'▲';}
+.th-sort.desc .sort-icon::after{content:'▼';}
+.th-sort:not(.asc):not(.desc) .sort-icon::after{content:'⇅';}
+.btn-ext-looker{background:#4285f4;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .18s;}
+.btn-ext-pipefy{background:#1c8a5e;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .18s;}
+.btn-ext-looker:hover,.btn-ext-pipefy:hover{opacity:.85;}
+.footer{text-align:center;padding:2rem 1rem 1.5rem;font-size:12px;color:rgba(255,255,255,.55);line-height:1.7;}
+.greeting{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;margin-bottom:14px;color:rgba(255,255,255,.9);font-size:14px;backdrop-filter:blur(4px);}
+.greeting strong{color:#fff;}
+.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
+.dash-card{background:var(--card-bg);border-radius:12px;border:1px solid var(--border);padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.07);transition:background .4s,border-color .4s;}
+.dash-label{font-size:11px;color:var(--text-2);margin-bottom:4px;font-weight:500;}
+.dash-val{font-size:20px;font-weight:600;margin-bottom:2px;}
+.dash-sub{font-size:11px;color:var(--text-2);}
+.dash-vencido .dash-val{color:#c0392b;}
+.dash-avencer .dash-val{color:#d97706;}
+.dash-cobrado .dash-val{color:var(--btn-bg);}
+.dash-protestado .dash-val{color:#6b21a8;}
+[data-theme="dark"] .dash-vencido .dash-val{color:#f08080;}
+[data-theme="dark"] .dash-avencer .dash-val{color:#fbbf24;}
+[data-theme="dark"] .dash-cobrado .dash-val{color:#60a8f0;}
+[data-theme="dark"] .dash-protestado .dash-val{color:#c084fc;}
+.status-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.pill-status{padding:4px 13px;border-radius:20px;border:1px solid var(--border);background:var(--card-bg);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-2);transition:all .15s;font-family:inherit;}
+.pill-status:hover{border-color:var(--input-bd);}
+.pill-status.p-all.active{background:var(--btn-bg);color:#fff;border-color:var(--btn-bg);}
+.pill-status.p-cobrado.active{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd;}
+.pill-status.p-negativado.active{background:#fce7f3;color:#9d174d;border-color:#f9a8d4;}
+.pill-status.p-protestado.active{background:#fef3c7;color:#92400e;border-color:#fcd34d;}
+[data-theme="dark"] .pill-status.p-cobrado.active{background:#1e3a6e;color:#93c5fd;border-color:#1e3a6e;}
+[data-theme="dark"] .pill-status.p-negativado.active{background:#4a1030;color:#f9a8d4;border-color:#4a1030;}
+[data-theme="dark"] .pill-status.p-protestado.active{background:#3a2a00;color:#fcd34d;border-color:#3a2a00;}
+.totalizador{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--card-bg2);border-radius:8px;margin-bottom:8px;font-size:13px;color:var(--text-2);border:1px solid var(--border);transition:background .4s,border-color .4s;}
+.tot-num{font-weight:600;color:var(--btn-bg);}
+tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-top:2px solid var(--border);background:var(--card-bg2)!important;transition:background .4s;}
+.cnpj-copiavel{cursor:pointer;border-bottom:1px dashed var(--border);transition:color .15s;}
+.cnpj-copiavel:hover{color:var(--btn-bg);}
+.cnpj-toast{display:inline-block;background:#d1e7dd;color:#0a6640;font-size:10px;padding:1px 5px;border-radius:4px;margin-left:4px;opacity:0;transition:opacity .2s;pointer-events:none;}
+.cnpj-toast.show{opacity:1;}
+#btn-topo{position:fixed;bottom:24px;right:24px;width:42px;height:42px;border-radius:50%;background:var(--btn-bg);color:#fff;border:none;cursor:pointer;font-size:18px;box-shadow:0 4px 16px rgba(0,0,0,.2);display:none;align-items:center;justify-content:center;z-index:7777;transition:opacity .2s,transform .2s;}
+#btn-topo.show{display:flex;}
+#btn-topo:hover{transform:translateY(-2px);opacity:.88;}
+@media(max-width:640px){
+  .container{padding:1rem .75rem;}
+  .header{gap:8px;}
+  .header-logo{height:38px;}
+  .header-title h1{font-size:15px;}
+  .header-title p{font-size:10px;}
+  .btn-hdr{font-size:11px;padding:6px 9px;}
+  .grid-3,.grid-4,.grid-5{grid-template-columns:1fr 1fr;}
+  .card{padding:1rem;}
+  table{font-size:12px;}
+  th,td{padding:7px 6px;}
+  .tbl-wrap{display:none!important;}
+  .mobile-cards{display:block!important;}
+}
+@media(max-width:380px){
+  .grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr;}
+}
+.mobile-cards{display:none;}
+.m-boleto-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;transition:background .4s,border-color .4s;}
+.m-boleto-row{display:flex;justify-content:space-between;align-items:flex-start;padding:13px 14px;gap:10px;}
+.m-left{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
+.m-nf{font-size:14px;font-weight:600;color:var(--text-1);}
+.m-client{font-size:12px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-cnpj{font-size:11px;color:var(--text-2);}
+.m-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.m-val{font-size:14px;font-weight:600;color:var(--text-1);}
+.m-venc{font-size:12px;color:var(--text-2);}
+.m-venc.warn{color:#d97706;font-weight:500;}
+.m-venc.danger{color:#dc2626;font-weight:500;}
+.m-actions{display:flex;gap:6px;margin-top:2px;}
+.m-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-1);display:flex;align-items:center;gap:4px;transition:background .15s;}
+.m-btn:hover{background:var(--card-bg2);}
+.m-btn.danger{color:#c0392b;border-color:#f5c6cb;}
+.m-btn:disabled{opacity:.4;cursor:default;}
+.m-chk-row{display:flex;align-items:center;gap:8px;padding:6px 14px 10px;border-top:1px solid var(--border);}
+.m-total{text-align:right;font-size:12px;color:var(--text-2);padding:6px 2px;}
+</style>
+</head>
+<body>
+
+<div class="overlay hidden" id="popup-boas-vindas">
+  <div class="popup-box">
+    <img src="data:image/png;base64,..." alt="Leal" onerror="this.style.display='none'"/>
+    <h2>Bem-vindo ao Portal de Boletos</h2>
+    <p>Antes de acessar, leia com atenção:</p>
+    <ul class="popup-list">
+      <li>Este portal é exclusivo para Representantes;</li>
+      <li>Os boletos são atualizados diariamente até as 15h;</li>
+      <li>Se verificar que um boleto já foi pago, basta apagá-lo (ícone de lixeira);</li>
+      <li>Caso hajam muitos boletos, pode demorar um pouco para carregar;</li>
+      <li>Ainda não estão disponíveis os boletos de clichê, fique atento nas atualizações !;</li>
+      <li>Em caso de dúvidas, entre em contato pelo e-mail cobranca@lealembalagens.com.br</li>
+    </ul>
+    <p class="popup-note">⚠️ Não compartilhe este portal com os clientes !. ⚠️</p>
+    <button class="btn-popup" onclick="fecharPopup()">Entendido — Acessar portal</button>
+  </div>
+</div>
+
+<div class="overlay hidden" id="modal-senha">
+  <div class="modal-box">
+    <h2>🔑 Trocar senha</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+      <div><label>Senha atual</label><input type="password" id="ps-atual" placeholder=""/></div>
+      <div><label>Nova senha</label><input type="password" id="ps-nova" placeholder=""/></div>
+      <div><label>Confirmar nova senha</label><input type="password" id="ps-confirma" placeholder=""/></div>
+      <div id="msg-senha"></div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn-primary" onclick="trocarSenha()">Salvar senha</button>
+        <button onclick="fecharModalSenha()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ENVIAR COBRANÇA (E-MAIL) ═══ -->
+<div class="overlay hidden" id="modal-cobranca">
+  <div class="modal-box" style="max-width:520px;">
+    <h2>✉️ Enviar cobrança por E-mail</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+      <div>
+        <label>Destinatário</label>
+        <input type="email" id="cob-email" placeholder="email@cliente.com.br"/>
+      </div>
+      <div>
+        <label>Assunto</label>
+        <input type="text" id="cob-assunto"/>
+      </div>
+      <div>
+        <label>Mensagem <span style="font-size:11px;color:var(--text-2);">(editável)</span></label>
+        <textarea id="cob-mensagem" rows="10" style="width:100%;padding:10px 12px;border:1px solid var(--input-bd);border-radius:8px;font-size:13px;font-family:inherit;resize:vertical;outline:none;background:var(--card-bg);color:var(--text-1);line-height:1.6;transition:background .4s,border-color .4s,color .4s;"></textarea>
+      </div>
+      <div id="msg-cobranca"></div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn-primary" onclick="enviarCobranca()">✉️ Enviar e-mail</button>
+        <button onclick="fecharModalCobranca()">Cancelar</button>
+      </div>
+      <input type="hidden" id="cob-nf"/>
+      <input type="hidden" id="cob-parcela"/>
+      <input type="hidden" id="cob-cliente"/>
+      <input type="hidden" id="cob-valor"/>
+      <input type="hidden" id="cob-vencimento"/>
+      <input type="hidden" id="cob-download-url"/>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ENVIAR COBRANÇA (WHATSAPP) ═══ -->
+<div class="overlay hidden" id="modal-whatsapp">
+  <div class="modal-box" style="max-width:480px;">
+    <h2>💬 Cobrança via WhatsApp</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+      <div>
+        <label>Número do WhatsApp do Cliente (com DDD)</label>
+        <input type="text" id="wsp-telefone" placeholder="Ex: 11999998888" oninput="this.value=this.value.replace(/\D/g,'')"/>
+      </div>
+      <div>
+        <label>Mensagem <span style="font-size:11px;color:var(--text-2);">(editável)</span></label>
+        <textarea id="wsp-mensagem" rows="8" style="width:100%;padding:10px 12px;border:1px solid var(--input-bd);border-radius:8px;font-size:13px;font-family:inherit;resize:vertical;outline:none;background:var(--card-bg);color:var(--text-1);line-height:1.6;transition:background .4s,border-color .4s,color .4s;"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn-wsp" onclick="dispararWhatsApp()">📲 Abrir WhatsApp</button>
+        <button onclick="fecharModalWhatsApp()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<div id="tela-login">
+  <div class="login-card-wrap">
+    <div class="login-logo-wrap">
+      <img class="login-logo" src="data:image/png;base64,..." alt="Leal" onerror="this.style.display='none'"/>
+      <h1 class="login-title">Portal de Boletos</h1>
+      <p class="login-sub">Acesse com seu login e senha</p>
+    </div>
+    <div class="card">
+      <div id="msg-login"></div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div><label>Login</label><input id="inp-login" type="text" enterkeyhint="go"/></div>
+        <div><label>Senha</label><input id="inp-senha" type="password" enterkeyhint="go"/></div>
+        <button class="btn-primary" onclick="fazerLogin()" style="width:100%;margin-top:4px;">Entrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tela-admin" class="hidden">
+  <div class="header">
+    <img class="header-logo" src="data:image/png;base64,..." alt="Leal" onerror="this.style.display='none'"/>
+    <div class="header-title">
+      <h1>Portal de Boletos</h1>
+      <p id="lbl-admin-nome"></p>
+    </div>
+  </div>
+
+  <div class="tabs" style="justify-content:space-between;align-items:center;">
+    <div style="display:flex;gap:8px;">
+      <button class="tab active" onclick="mostrarTab('tab-boletos',this)">📄 Boletos</button>
+      <button class="tab hidden" onclick="mostrarTab('tab-usuarios',this)">👥 Usuários</button>
+      <button class="tab" style="display:none !important;" onclick="mostrarTab('tab-novo-boleto',this)">+ Novo boleto</button>
+      <button class="tab hidden" onclick="mostrarTab('tab-novo-usuario',this)">+ Novo usuário</button>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <a href="https://datastudio.google.com/s/sjlTLWEGhoI" target="_blank"><button class="btn-ext-looker">📊 Inadimplência</button></a>
+      <a href="https://app.pipefy.com/public/form/yg0oOER6" target="_blank"><button class="btn-ext-pipefy">🎫 Abrir chamado</button></a>
+      <button class="btn-hdr" onclick="abrirModalSenha()">🔑 Trocar senha</button>
+      <button class="btn-hdr" onclick="toggleDark()" id="btn-dark">🌙</button>
+      <button class="btn-sair btn-hdr" onclick="sair()">Sair</button>
+    </div>
+  </div>
+  
+  <div id="msg-admin"></div>
+
+  <div id="admin-dashboard">
+    <div class="greeting" id="admin-greeting"></div>
+  </div>
+
+  <div id="tab-boletos">
+    <div class="card">
+      <div class="fonte-toggle">
+        <button class="fonte-btn active" id="fonte-btn-vencidos-admin" onclick="setFonte('vencidos','admin')">📋 Vencidos</button>
+        <button class="fonte-btn" id="fonte-btn-avencer-admin" onclick="setFonte('avencer','admin')">📅 A Vencer</button>
+      </div>
+      <div class="grid-4" style="margin-bottom:10px;">
+        <div><label>Nº Nota Fiscal</label><input id="fa-nf" type="text" enterkeyhint="search"/></div>
+        <div><label>Parcela</label><input id="fa-parcela" type="text" enterkeyhint="search"/></div>
+        <div><label>CNPJ</label><input id="fa-cnpj" type="text" oninput="this.value=formatCNPJ(this.value)" enterkeyhint="search"/></div>
+        <div><label>Representante</label>
+          <select id="fa-representante"><option value="">Todos</option></select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="buscarBoletos('admin')">🔍 Buscar</button>
+        <button onclick="limparFiltros('admin')" style="color:var(--text-2);">✕ Limpar</button>
+      </div>
+    </div>
+    <div class="hidden" id="export-bar-admin">
+      <div class="bulk-actions">
+        <button class="btn-bulk-delete hidden" id="btn-bulk-admin" onclick="excluirSelecionados('result-boletos-admin')">🗑️ Excluir selecionados (<span id="count-admin">0</span>)</button>
+      </div>
+    </div>
+    <div class="hidden" id="pills-admin">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+        <div class="status-pills" style="margin-bottom:0;">
+          <button class="pill-status p-all active" onclick="filtrarPill('','admin')">Todos</button>
+          <button class="pill-status p-cobrado" onclick="filtrarPill('cobrado','admin')">Cobrado</button>
+          <button class="pill-status p-negativado" onclick="filtrarPill('negativado','admin')">Negativado</button>
+          <button class="pill-status p-protestado" onclick="filtrarPill('protestado','admin')">Protestado</button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <div class="view-toggle">
+            <button class="view-btn active" id="vbtn-table-admin" onclick="setViewMode('table','admin')">☰ Lista</button>
+            <button class="view-btn" id="vbtn-cards-admin" onclick="setViewMode('cards','admin')">⊞ Cards</button>
+          </div>
+          <button class="btn-export" onclick="exportarCSV()">⬇ Exportar CSV / Excel</button>
+        </div>
+      </div>
+      <div class="totalizador" id="tot-admin">
+        🔍 <span id="tot-admin-txt">—</span>
+      </div>
+    </div>
+    <div class="card" id="result-boletos-admin"><div class="loading">Use os filtros acima para buscar boletos.</div></div>
+  </div>
+
+  <div id="tab-usuarios" class="hidden">
+    <div class="card" id="result-usuarios"><div class="loading">Carregando...</div></div>
+  </div>
+
+  <div id="tab-novo-boleto" class="hidden">
+    <div class="card" style="max-width:520px;">
+      <p style="font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em;" id="lbl-form-boleto">Cadastrar novo boleto</p>
+      <input type="hidden" id="nb-id"/>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="grid-2">
+          <div><label>Nº Nota Fiscal *</label><input id="nb-nf" type="text"/></div>
+          <div><label>Parcela *</label><input id="nb-parcela" type="text"/></div>
+        </div>
+        <div class="grid-2">
+          <div><label>CNPJ do fornecedor *</label><input id="nb-cnpj" type="text" oninput="this.value=formatCNPJ(this.value)"/></div>
+          <div><label>Vencimento *</label><input id="nb-venc" type="date"/></div>
+        </div>
+        <div class="grid-2">
+          <div><label>Valor (R$) *</label><input id="nb-valor" type="number" step="0.01"/></div>
+          <div><label>Representante</label>
+            <select id="nb-representante"><option value="">Selecione</option></select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div><label>Nome do Cliente</label><input id="nb-cliente" type="text"/></div>
+          <div><label>E-mail do Cliente</label><input id="nb-email" type="email" placeholder="email@cliente.com.br"/></div>
+        </div>
+        <div><label>Status</label>
+          <select id="nb-status">
+            <option value="">—</option>
+            <option value="pendente">Pendente</option>
+            <option value="pago">Pago</option>
+            <option value="vencido">Vencido</option>
+            <option value="cobrado">Cobrado</option>
+            <option value="negativado">Negativado</option>
+            <option value="protestado">Protestado</option>
+          </select>
+        </div>
+        <p style="font-size:12px;color:#888;background:var(--card-bg2);padding:10px;border-radius:8px;transition:background .4s;">
+          📁 O PDF é encontrado automaticamente no Drive pelo número da NF e parcela.
+        </p>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="btn-primary" onclick="salvarBoleto()">Salvar boleto</button>
+          <button onclick="cancelarFormBoleto()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-novo-usuario" class="hidden">
+    <div class="card" style="max-width:420px;">
+      <p style="font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em;" id="lbl-form-usuario">Cadastrar usuário</p>
+      <input type="hidden" id="nu-id"/>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div><label>Nome *</label><input id="nu-nome" type="text"/></div>
+        <div><label>CNPJ (Preencher apenas se for Fornecedor)</label><input id="nu-cnpj" type="text" oninput="this.value=formatCNPJ(this.value)"/></div>
+        <div><label>Representante Vinculado</label>
+          <select id="nu-representante"><option value="">Nenhum (Admin ou Fornecedor)</option></select>
+        </div>
+        <div><label>Login *</label><input id="nu-login" type="text"/></div>
+        <div><label>Senha *</label><input id="nu-senha" type="password"/></div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="btn-primary" onclick="salvarUsuario()">Salvar usuário</button>
+          <button onclick="cancelarFormUsuario()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tela-fornecedor" class="hidden">
+  <div class="header">
+    <img class="header-logo" src="data:image/png;base64,..." alt="Leal" onerror="this.style.display='none'"/>
+    <div class="header-title">
+      <h1>Meus Boletos</h1>
+      <p id="lbl-forn-nome" style="color:rgba(255,255,255,.8);"></p>
+    </div>
+  </div>
+
+  <div class="tabs" style="justify-content:space-between;align-items:center;margin-bottom:1rem;">
+    <div></div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <a href="https://datastudio.google.com/s/sjlTLWEGhoI" target="_blank"><button class="btn-ext-looker">📊 Inadimplência</button></a>
+      <a href="https://app.pipefy.com/public/form/yg0oOER6" target="_blank"><button class="btn-ext-pipefy">🎫 Abrir chamado</button></a>
+      <button class="btn-hdr" onclick="abrirModalSenha()">🔑 Trocar senha</button>
+      <button class="btn-hdr" onclick="toggleDark()" id="btn-dark-forn">🌙</button>
+      <button class="btn-sair btn-hdr" onclick="sair()">Sair</button>
+    </div>
+  </div>
+
+  <div class="greeting" id="forn-greeting" style="margin-bottom:14px;"></div>
+
+  <div class="card">
+    <div class="fonte-toggle">
+      <button class="fonte-btn active" id="fonte-btn-vencidos-forn" onclick="setFonte('vencidos','fornecedor')">📋 Vencidos</button>
+      <button class="fonte-btn" id="fonte-btn-avencer-forn" onclick="setFonte('avencer','fornecedor')">📅 A Vencer</button>
+    </div>
+    <div class="grid-4" style="margin-bottom:10px;">
+      <div><label>Nº Nota Fiscal</label><input id="ff-nf" type="text" enterkeyhint="search"/></div>
+      <div><label>Parcela</label><input id="ff-parcela" type="text" enterkeyhint="search"/></div>
+      <div id="box-ff-cnpj"><label>CNPJ</label><input id="ff-cnpj" type="text" oninput="this.value=formatCNPJ(this.value)" enterkeyhint="search"/></div>
+      <div id="box-ff-representante"><label>Representante</label>
+        <select id="ff-representante"><option value="">Todos</option></select>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn-primary" onclick="buscarBoletos('fornecedor')">🔍 Buscar</button>
+      <button onclick="limparFiltros('fornecedor')" style="color:var(--text-2);">✕ Limpar</button>
+    </div>
+  </div>
+  <div class="hidden" id="export-bar-forn">
+    <div class="bulk-actions">
+      <button class="btn-bulk-delete hidden" id="btn-bulk-forn" onclick="excluirSelecionados('result-boletos-forn')">🗑️ Excluir selecionados (<span id="count-forn">0</span>)</button>
+    </div>
+  </div>
+  <div class="hidden" id="pills-forn">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+      <div class="status-pills" style="margin-bottom:0;">
+        <button class="pill-status p-all active" onclick="filtrarPill('','fornecedor')">Todos</button>
+        <button class="pill-status p-cobrado" onclick="filtrarPill('cobrado','fornecedor')">Cobrado</button>
+        <button class="pill-status p-negativado" onclick="filtrarPill('negativado','fornecedor')">Negativado</button>
+        <button class="pill-status p-protestado" onclick="filtrarPill('protestado','fornecedor')">Protestado</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div class="view-toggle">
+          <button class="view-btn active" id="vbtn-table-forn" onclick="setViewMode('table','forn')">☰ Lista</button>
+          <button class="view-btn" id="vbtn-cards-forn" onclick="setViewMode('cards','forn')">⊞ Cards</button>
+        </div>
+        <button class="btn-export" onclick="exportarCSV()">⬇ Exportar CSV / Excel</button>
+      </div>
+    </div>
+    <div class="totalizador" id="tot-forn">
+      🔍 <span id="tot-forn-txt">—</span>
+    </div>
+  </div>
+  <div class="card" id="result-boletos-forn"><div class="loading">Use os filtros acima para buscar boletos.</div></div>
+</div>
+
+<div id="preview-backdrop" onclick="fecharPrevia()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8888;transition:opacity .3s;"></div>
+<div id="preview-panel" style="display:none;position:fixed;top:0;right:0;width:min(520px,95vw);height:100vh;background:var(--card-bg);box-shadow:-4px 0 32px rgba(0,0,0,.25);z-index:8889;flex-direction:column;transition:transform .32s cubic-bezier(.4,0,.2,1);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);gap:10px;flex-shrink:0;">
+    <div>
+      <p style="font-size:13px;font-weight:700;color:var(--text-1);margin:0;" id="preview-title">Prévia do boleto</p>
+      <p style="font-size:11px;color:var(--text-2);margin:2px 0 0;" id="preview-sub"></p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+      <a id="preview-download-link" href="#" target="_blank">
+        <button class="btn-primary" style="font-size:12px;padding:6px 14px;">⬇ Baixar PDF</button>
+      </a>
+      <button onclick="fecharPrevia()" style="font-size:18px;line-height:1;padding:4px 8px;color:var(--text-2);border:none;background:transparent;">✕</button>
+    </div>
+  </div>
+  <iframe id="preview-iframe" src="" style="flex:1;border:none;width:100%;background:#f5f5f5;" allowfullscreen></iframe>
+</div>
+
+</div><button id="btn-topo" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+
+<div class="footer">
+  Leal Embalagens de Papel &copy; 2026<br>
+  Criado e desenvolvido por Dennis Wandembruck
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbyz88cYkCkwUJlbJY5MOmExAwMFUe_DzHyF43y0_PFrwheRyq3dVjhHOhtHaFTAJVsg/exec';
+let usuarioAtual = null;
+let boletosCarregados = [];
+let tipoAtual = '';
+let paginaAtual = 1;
+const ITENS_POR_PAGINA = 15;
+
+/* ── DARK MODE ── */
+(function(){
+  const saved = localStorage.getItem('leal_theme') || 'light';
+  document.body.setAttribute('data-theme', saved);
+})();
+function toggleDark(){
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', next);
+  localStorage.setItem('leal_theme', next);
+  const icon = isDark ? '🌙' : '☀️';
+  document.querySelectorAll('#btn-dark,#btn-dark-forn').forEach(b => b.textContent = icon);
+}
+function syncDarkBtn(){
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  document.querySelectorAll('#btn-dark,#btn-dark-forn').forEach(b => b.textContent = isDark ? '☀️' : '🌙');
+}
+
+/* ── POPUP ── */
+const popupEl = document.getElementById('popup-boas-vindas');
+function fecharPopup(){
+  popupEl.style.opacity='0'; popupEl.style.transition='opacity .28s';
+  setTimeout(()=>{
+    popupEl.classList.add('hidden');
+    if (usuarioAtual && usuarioAtual.role === 'representante') {
+      buscarBoletos('fornecedor');
+    }
+  },280);
+}
+
+/* ── MODAL SENHA ── */
+function abrirModalSenha(){
+  document.getElementById('ps-atual').value='';
+  document.getElementById('ps-nova').value='';
+  document.getElementById('ps-confirma').value='';
+  document.getElementById('msg-senha').innerHTML='';
+  document.getElementById('modal-senha').classList.remove('hidden');
+}
+function fecharModalSenha(){
+  document.getElementById('modal-senha').classList.add('hidden');
+}
+async function trocarSenha(){
+  const atual    = document.getElementById('ps-atual').value;
+  const nova     = document.getElementById('ps-nova').value;
+  const confirma = document.getElementById('ps-confirma').value;
+  const msgEl    = document.getElementById('msg-senha');
+  if(!atual||!nova||!confirma){ msgEl.innerHTML='<div class="msg-erro">Preencha todos os campos.</div>'; return; }
+  if(nova!==confirma){ msgEl.innerHTML='<div class="msg-erro">As senhas não coincidem.</div>'; return; }
+  if(nova.length<4){ msgEl.innerHTML='<div class="msg-erro">A nova senha deve ter pelo menos 4 caracteres.</div>'; return; }
+  msgEl.innerHTML='<p style="color:var(--text-2);font-size:13px;">Verificando...</p>';
+  const verify = await api({action:'login', login:usuarioAtual.login, senha:atual});
+  if(!verify.ok){ msgEl.innerHTML='<div class="msg-erro">Senha atual incorreta.</div>'; return; }
+  const res = await apiPost({action:'salvar_usuario', id:usuarioAtual.id, nome:usuarioAtual.nome, cnpj:usuarioAtual.cnpj, login:usuarioAtual.login, senha:nova, representante:usuarioAtual.representante});
+  if(res.ok){
+    msgEl.innerHTML='<div class="msg-ok">Senha alterada com sucesso!</div>';
+    setTimeout(()=>fecharModalSenha(), 1600);
+  } else {
+    msgEl.innerHTML='<div class="msg-erro">Erro ao alterar senha. Tente novamente.</div>';
+  }
+}
+
+/* ── API ── */
+async function api(params){
+  const url=API_URL+'?'+new URLSearchParams(params);
+  const r=await fetch(url); return r.json();
+}
+async function apiPost(data){
+  if(usuarioAtual && usuarioAtual.login && !data.usuario) {
+    data.usuario = usuarioAtual.login;
+  }
+  const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(data)}); return r.json();
+}
+
+/* ── FORMAT ── */
+function formatCNPJ(v){
+  v=v.replace(/\D/g,'').slice(0,14);
+  if(v.length>12) v=v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/,'$1.$2.$3/$4-$5');
+  else if(v.length>8) v=v.replace(/(\d{2})(\d{3})(\d{3})(\d{0,4})/,'$1.$2.$3/$4');
+  else if(v.length>5) v=v.replace(/(\d{2})(\d{3})(\d{0,3})/,'$1.$2.$3');
+  else if(v.length>2) v=v.replace(/(\d{2})(\d{0,3})/,'$1.$2');
+  return v;
+}
+function formatMoney(v){ return 'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2}); }
+function formatarData(valor){
+  try{
+    const s=String(valor||'').trim(); if(!s) return '—';
+    if(/^\d{4}-\d{2}-\d{2}$/.test(s)){const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
+    if(/^\d{2}\/\d{2}\/\d{4}$/.test(s)) return s;
+    const dt=new Date(s); if(!isNaN(dt.getTime())) return dt.toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'});
+    return s;
+  }catch(e){return String(valor);}
+}
+function badge(s){
+  if(!s) return '<span class="badge badge-none">—</span>';
+  const key = s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const labels = {
+    pendente:'Pendente', pago:'Pago', vencido:'Vencido',
+    cobrado:'Cobrado', negativado:'Negativado', protestado:'Protestado'
+  };
+  const label = labels[key] || s;
+  return `<span class="badge badge-${key}">${label}</span>`;
+}
+
+/* ── REPRESENTANTES ── */
+async function carregarRepresentantes(){
+  try{
+    const res=await api({action:'representantes'}); const lista=res.representantes||[];
+    ['fa-representante','ff-representante','nb-representante','nu-representante'].forEach(id=>{
+      const sel=document.getElementById(id); if(!sel) return;
+      const first=sel.options[0]; sel.innerHTML=''; sel.appendChild(first);
+      lista.forEach(rep=>{ const o=document.createElement('option'); o.value=rep; o.textContent=rep; sel.appendChild(o); });
+    });
+  }catch(e){console.warn('Representantes:',e);}
+}
+
+/* ── LOGIN / LOGOUT ── */
+async function fazerLogin(){
+  const login=document.getElementById('inp-login').value.trim();
+  const senha=document.getElementById('inp-senha').value.trim();
+  document.getElementById('msg-login').innerHTML='<p style="color:var(--text-2);font-size:13px;">Entrando...</p>';
+  try{
+    const res=await api({action:'login',login,senha});
+    if(!res.ok){document.getElementById('msg-login').innerHTML=`<div class="msg-erro">${res.erro}</div>`;return;}
+    usuarioAtual=res.usuario;
+    document.getElementById('tela-login').classList.add('hidden');
+    await carregarRepresentantes();
+    syncDarkBtn();
+    popupEl.classList.remove('hidden'); popupEl.style.opacity='1';
+    
+    if(usuarioAtual.role==='admin'){
+      document.getElementById('tela-admin').classList.remove('hidden');
+      document.getElementById('lbl-admin-nome').textContent='Painel administrativo — '+usuarioAtual.nome;
+      document.querySelectorAll('#tela-admin .tab.hidden').forEach(el => el.classList.remove('hidden'));
+      mostrarGreeting(usuarioAtual.nome, 'admin-greeting');
+      carregarDashboard();
+      mostrarTabelaVazia('result-boletos-admin');
+    } else {
+      document.getElementById('tela-fornecedor').classList.remove('hidden');
+      mostrarGreeting(usuarioAtual.nome, 'forn-greeting');
+      let subtitulo = usuarioAtual.nome;
+      if (usuarioAtual.cnpj) {
+        subtitulo += ' — ' + usuarioAtual.cnpj;
+      } else if (usuarioAtual.role === 'representante') {
+        subtitulo += ' (Representante: ' + usuarioAtual.representante + ')';
+      }
+      document.getElementById('lbl-forn-nome').textContent = subtitulo;
+      const boxRep = document.getElementById('box-ff-representante');
+      const boxCnpj = document.getElementById('box-ff-cnpj');
+      if (usuarioAtual.role === 'representante') {
+        if (boxRep) boxRep.style.display = 'none';
+        if (boxCnpj) boxCnpj.style.display = 'block';
+      } else {
+        if (boxRep) boxRep.style.display = 'block';
+        if (boxCnpj) boxCnpj.style.display = 'none';
+        mostrarTabelaVazia('result-boletos-forn');
+      }
+    }
+  }catch(e){
+    document.getElementById('msg-login').innerHTML='<div class="msg-erro">Erro ao conectar com o servidor.</div>';
+  }
+}
+function sair(){
+  usuarioAtual=null; boletosCarregados=[]; paginaAtual=1; fonteAtual='vencidos';
+  ['tela-admin','tela-fornecedor'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+  document.getElementById('tela-login').classList.remove('hidden');
+  document.getElementById('inp-login').value='';
+  document.getElementById('inp-senha').value='';
+  document.getElementById('msg-login').innerHTML='';
+}
+
+/* ── GREETING ── */
+function mostrarGreeting(nome, targetId){
+  const h = new Date().getHours();
+  const saud = h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
+  const icon = h < 12 ? '☀️' : h < 18 ? '🌤️' : '🌙';
+  const el = document.getElementById(targetId);
+  if(el) el.innerHTML = `${icon} ${saud}, <strong>${nome}!</strong>`;
+}
+
+/* ── DASHBOARD (admin) ── */
+async function carregarDashboard(){
+  function setEl(id, val){ const el=document.getElementById(id); if(el) el.textContent=val; }
+  try{
+    const [resV, resA] = await Promise.all([
+      api({action:'boletos', fonte:'vencidos'}),
+      api({action:'boletos', fonte:'avencer'})
+    ]);
+    const vencidos  = resV.boletos || [];
+    const aVencer   = resA.boletos || [];
+    const cobrados  = vencidos.filter(b => normalizar(b.status) === 'cobrado');
+    const protest   = vencidos.filter(b => normalizar(b.status) === 'protestado');
+    const somarValor = arr => arr.reduce((s,b) => s + Number(b.valor||0), 0);
+    setEl('dash-val-vencido',   formatMoney(somarValor(vencidos)));
+    setEl('dash-sub-vencido',   `${vencidos.length} boletos`);
+    setEl('dash-val-avencer',   formatMoney(somarValor(aVencer)));
+    setEl('dash-sub-avencer',   `${aVencer.length} boletos`);
+    setEl('dash-val-cobrado',   formatMoney(somarValor(cobrados)));
+    setEl('dash-sub-cobrado',   `${cobrados.length} boletos`);
+    setEl('dash-val-protestado',formatMoney(somarValor(protest)));
+    setEl('dash-sub-protestado',`${protest.length} boletos`);
+  } catch(e){ console.warn('Dashboard:', e); }
+}
+
+function normalizar(v){
+  return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+/* ── STATUS PILLS ── */
+let pillFiltroAtual = {admin:'', fornecedor:''};
+function filtrarPill(status, tipo){
+  pillFiltroAtual[tipo] = status;
+  const prefix = tipo === 'admin' ? 'admin' : 'forn';
+  document.querySelectorAll(`#pills-${prefix} .pill-status`).forEach(p => p.classList.remove('active'));
+  const alvo = status === '' ? 'p-all' : `p-${status}`;
+  document.querySelector(`#pills-${prefix} .${alvo}`)?.classList.add('active');
+  const targetId = tipo === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
+  const isAdmin = tipo === 'admin';
+  const filtrados = status === '' ? boletosCarregados : boletosCarregados.filter(b => normalizar(b.status) === status);
+  renderTabela(filtrados, isAdmin, targetId);
+}
+
+/* ── TOTALIZADOR ── */
+function atualizarTotalizador(boletos, tipo){
+  const prefix = tipo === 'admin' ? 'admin' : 'forn';
+  const total = boletos.reduce((s,b) => s + Number(b.valor||0), 0);
+  const txt = `<span class="tot-num">${boletos.length} boleto(s)</span> encontrado(s) · Total: <span class="tot-num">${formatMoney(total)}</span>`;
+  const el = document.getElementById(`tot-${prefix}-txt`);
+  if(el) el.innerHTML = txt;
+  document.getElementById(`pills-${prefix}`)?.classList.remove('hidden');
+}
+
+/* ── CNPJ COPY ── */
+let toastTimer = null;
+function copiarCNPJ(el, cnpj){
+  navigator.clipboard.writeText(cnpj).catch(()=>{});
+  const toast = el.nextElementSibling;
+  if(!toast) return;
+  toast.textContent = '✓ copiado';
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove('show'), 2000);
+}
+
+/* ── BACK TO TOP ── */
+window.addEventListener('scroll', ()=>{
+  const btn = document.getElementById('btn-topo');
+  if(btn) btn.classList.toggle('show', window.scrollY > 300);
+});
+
+/* ── TABELA VAZIA ── */
+function mostrarTabelaVazia(id){
+  document.getElementById(id).innerHTML='<p style="text-align:center;padding:2rem;color:var(--text-2);font-size:14px;">🔍 Use os filtros acima para buscar boletos.</p>';
+}
+
+/* ── LIMPAR FILTROS ── */
+function limparFiltros(tipo){
+  sortCol=null; sortDir=1; paginaAtual = 1;
+  if(tipo==='admin'){
+    ['fa-nf','fa-parcela','fa-cnpj'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fa-representante').selectedIndex=0;
+    document.getElementById('export-bar-admin').classList.add('hidden');
+    document.getElementById('pills-admin')?.classList.add('hidden');
+    mostrarTabelaVazia('result-boletos-admin');
+  } else {
+    ['ff-nf','ff-parcela','ff-cnpj'].forEach(id=>{
+       const el = document.getElementById(id);
+       if (el) el.value='';
+    });
+    const ffRep = document.getElementById('ff-representante');
+    if (ffRep) ffRep.selectedIndex=0;
+    document.getElementById('export-bar-forn').classList.add('hidden');
+    document.getElementById('pills-forn')?.classList.add('hidden');
+    mostrarTabelaVazia('result-boletos-forn');
+  }
+  boletosCarregados=[];
+}
+
+/* ── FONTE ── */
+let fonteAtual = 'vencidos';
+function setFonte(fonte, tipo) {
+  fonteAtual = fonte;
+  const prefix = tipo === 'admin' ? 'admin' : 'forn';
+  document.getElementById(`fonte-btn-vencidos-${prefix}`).classList.toggle('active', fonte === 'vencidos');
+  document.getElementById(`fonte-btn-avencer-${prefix}`).classList.toggle('active', fonte === 'avencer');
+  const targetId = tipo === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
+  const barId    = tipo === 'admin' ? 'export-bar-admin' : 'export-bar-forn';
+  mostrarTabelaVazia(targetId);
+  document.getElementById(barId).classList.add('hidden');
+  boletosCarregados = [];
+  sortCol = null; sortDir = 1; paginaAtual = 1;
+}
+
+/* ── VIEW MODE ── */
+let viewMode = 'table';
+function setViewMode(mode, prefix){
+  viewMode = mode;
+  ['table','cards'].forEach(m=>{
+    const btn = document.getElementById(`vbtn-${m}-${prefix}`);
+    if(btn) btn.classList.toggle('active', m === mode);
+  });
+  const tipo = prefix === 'admin' ? 'admin' : 'fornecedor';
+  const targetId = prefix === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
+  const isAdmin = prefix === 'admin';
+  const filtro = pillFiltroAtual[tipo] || '';
+  const lista = filtro ? boletosCarregados.filter(b => normalizar(b.status) === filtro) : boletosCarregados;
+  renderTabela(lista, isAdmin, targetId);
+}
+
+/* ── BUSCAR BOLETOS ── */
+async function buscarBoletos(tipo){
+  tipoAtual=tipo;
+  paginaAtual = 1;
+  const params={action:'boletos', fonte: fonteAtual};
+  if(tipo==='admin'){
+    params.nf=document.getElementById('fa-nf').value;
+    params.parcela=document.getElementById('fa-parcela').value;
+    params.cnpj=document.getElementById('fa-cnpj').value;
+    params.representante=document.getElementById('fa-representante').value;
+  } else {
+    params.nf=document.getElementById('ff-nf').value;
+    params.parcela=document.getElementById('ff-parcela').value;
+    if (usuarioAtual.role === 'representante') {
+      params.representante = usuarioAtual.representante; 
+      params.cnpj = document.getElementById('ff-cnpj').value;
+    } else {
+      params.cnpj = usuarioAtual.cnpj; 
+      params.representante = document.getElementById('ff-representante').value;
+    }
+  }
+  const targetId=tipo==='admin'?'result-boletos-admin':'result-boletos-forn';
+  const barId=tipo==='admin'?'export-bar-admin':'export-bar-forn';
+  const spinnerHtml='<div class="spinner-wrap"><div class="spinner"></div><p>Buscando boletos...</p></div>';
+  document.getElementById(targetId).innerHTML=spinnerHtml;
+  document.getElementById(barId).classList.add('hidden');
+  const res=await api(params); let boletos=res.boletos||[]; const isAdmin=tipo==='admin';
+  boletosCarregados=boletos;
+  if(!boletos.length){
+    document.getElementById(targetId).innerHTML='<p style="text-align:center;padding:2rem;color:var(--text-2);font-size:14px;">Nenhum boleto encontrado</p>';
+    return;
+  }
+  document.getElementById(barId).classList.remove('hidden');
+  pillFiltroAtual[tipo] = '';
+  const prefix = tipo === 'admin' ? 'admin' : 'forn';
+  document.querySelectorAll(`#pills-${prefix} .pill-status`).forEach(p => p.classList.remove('active'));
+  document.querySelector(`#pills-${prefix} .p-all`)?.classList.add('active');
+  atualizarTotalizador(boletos, tipo);
+  renderTabela(boletos, isAdmin, targetId);
+  setTimeout(()=>{
+    document.getElementById(targetId).scrollIntoView({behavior:'smooth', block:'start'});
+  }, 100);
+}
+
+/* ── SORT E RENDER TABELA ── */
+let sortCol = null, sortDir = 1;
+function renderTabela(boletos, isAdmin, targetId){
+  const canDelete = isAdmin || (usuarioAtual && usuarioAtual.role === 'representante');
+
+  const sorted = [...boletos].sort((a,b)=>{
+    if(!sortCol) return 0;
+    let va = sortCol==='representante' ? (a.representante||'') : (a[sortCol]||'');
+    let vb = sortCol==='representante' ? (b.representante||'') : (b[sortCol]||'');
+    if(sortCol==='valor'){ va=Number(va); vb=Number(vb); return (va-vb)*sortDir; }
+    return String(va).localeCompare(String(vb),'pt-BR',{numeric:true})*sortDir;
+  });
+
+  const totalPaginas = Math.ceil(sorted.length / ITENS_POR_PAGINA);
+  const startIndex = (paginaAtual - 1) * ITENS_POR_PAGINA;
+  const paginados = sorted.slice(startIndex, startIndex + ITENS_POR_PAGINA);
+  const totalGeral = paginados.reduce((s,b) => s+Number(b.valor||0), 0);
+
+  /* ── MODO CARDS ── */
+  if(viewMode === 'cards'){
+    let html = `<div class="cards-grid">`;
+    paginados.forEach(b => {
+      const venc = formatarData(b.vencimento);
+      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      const raw  = b.vencimento || '';
+      const dv   = raw.match(/^\d{2}\/\d{2}\/\d{4}$/) ? new Date(raw.split('/').reverse().join('-')) : new Date(raw);
+      dv.setHours(0,0,0,0);
+      const diff = Math.floor((hoje - dv) / 86400000);
+      const vencClass = diff > 30 ? 'danger' : diff > 0 ? 'warn' : '';
+      const cliente = b.cliente || '—';
+      const rep     = b.representante || '—';
+      const chkHtml = canDelete ? `<input type="checkbox" class="chk-boleto bc-chk" style="width:15px;height:15px;cursor:pointer;accent-color:var(--btn-bg);flex-shrink:0;" data-id="${b.id}" data-target="${targetId}" onchange="atualizarContador('${targetId}');this.closest('.boleto-card').classList.toggle('card-selected',this.checked)"/>` : '';
+      const pdfBtn = b.downloadUrl ? `<button class="bc-btn" onclick="abrirPrevia('${b.downloadUrl}','${b.nf}','${b.parcela}')">⬇ PDF</button>` : `<button class="bc-btn" disabled>Sem PDF</button>`;
+      const cobBtn = isAdmin ? `<button class="bc-btn" onclick="abrirModalCobranca(${JSON.stringify(b).replace(/"/g,'&quot;')})" title="Enviar e-mail">✉️</button>` : '';
+      const wspBtn = `<button class="bc-btn btn-wsp" onclick="abrirModalWhatsApp(${JSON.stringify(b).replace(/"/g,'&quot;')})" title="Enviar WhatsApp">💬</button>`;
+      const delBtn = canDelete ? `<button class="bc-btn danger" onclick="excluirBoleto('${b.id}')">🗑️</button>` : '';
+      html += `
+      <div class="boleto-card" id="row-${b.id}">
+        <div class="bc-header">${chkHtml}<span class="bc-nf">NF ${b.nf} · P${b.parcela}</span>${badge(b.status)}</div>
+        <div class="bc-body">
+          <div class="bc-left">
+            <span class="bc-client">${cliente}</span>
+            <span class="bc-cnpj" onclick="copiarCNPJ(this,'${b.cnpj||''}')" title="Clique para copiar">${b.cnpj||'—'}</span><span class="cnpj-toast"></span>
+          </div>
+          <div class="bc-right"><span class="bc-val">${formatMoney(b.valor)}</span><span class="bc-venc ${vencClass}">${venc}</span></div>
+        </div>
+        <div class="bc-footer"><span class="bc-rep">👤 ${rep}</span><div class="bc-actions">${pdfBtn}${cobBtn}${wspBtn}${delBtn}</div></div>
+      </div>`;
+    });
+    html += `</div><div class="cards-total">Total da página: <strong>${formatMoney(totalGeral)}</strong></div>`;
+    if(totalPaginas > 1){
+      html += '<div class="pagination">';
+      for(let i=1;i<=totalPaginas;i++){
+        html += `<button class="btn-page${i===paginaAtual?' active':''}" onclick="mudarPagina(${i},${isAdmin},'${targetId}')">${i}</button>`;
+      }
+      html += '</div>';
+    }
+    html += '<div class="mobile-cards" style="display:none"></div>';
+    document.getElementById(targetId).innerHTML = html;
+    return;
+  }
+
+  /* ── MODO TABELA ── */
+  const cols = [
+    {key:'nf', label:'Nota Fiscal'}, {key:'parcela', label:'Parcela'}, {key:'cnpj', label:'CNPJ'},
+    {key:'cliente', label:'Cliente'}, {key:'valor', label:'Valor'}, {key:'vencimento', label:'Vencimento'},
+    {key:'representante', label:'Representante'}, {key:'status', label:'Status'}
+  ];
+  const checkTh = canDelete ? `<th class="col-check"><input type="checkbox" id="chk-all-${targetId}" onclick="toggleTodos(this,'${targetId}')"/></th>` : '';
+  const thHtml = checkTh + cols.map(c => {
+    const active = sortCol === c.key ? (sortDir===1?'asc':'desc') : '';
+    return `<th class="th-sort ${active}" onclick="sortTabela('${c.key}','${isAdmin}','${targetId}')">${c.label}<span class="sort-icon"></span></th>`;
+  }).join('') + '<th>Ações</th>';
+
+  let html=`<div class="tbl-wrap"><table><thead><tr>${thHtml}</tr></thead><tbody>`;
+  paginados.forEach(b=>{
+    const venc=formatarData(b.vencimento); const rep=b.representante||'—';
+    const checkTd = canDelete ? `<td class="col-check"><input type="checkbox" class="chk-boleto" data-id="${b.id}" data-target="${targetId}" onchange="atualizarContador('${targetId}')"/></td>` : '';
+    html+=`<tr id="row-${b.id}">${checkTd}
+      <td><strong>${b.nf}</strong></td><td style="color:var(--text-2);">${b.parcela}</td>
+      <td style="font-size:12px;color:var(--text-2);"><span class="cnpj-copiavel" onclick="copiarCNPJ(this,'${b.cnpj||''}')" title="Clique para copiar">${b.cnpj||'—'}</span><span class="cnpj-toast"></span></td>
+      <td style="font-size:12px;font-weight:500;">${b.cliente||'—'}</td><td style="font-weight:500;">${formatMoney(b.valor)}</td>
+      <td>${venc}</td><td style="font-size:12px;">${rep}</td><td>${badge(b.status)}</td>
+      <td style="white-space:nowrap;">
+        ${b.downloadUrl ? `<button onclick="abrirPrevia('${b.downloadUrl}','${b.nf}','${b.parcela}')" style="font-size:12px;padding:3px 8px;margin-right:4px;">⬇ PDF</button>` : '<span style="font-size:11px;color:#aaa;">Sem PDF</span>'}
+        ${isAdmin ? `<button onclick="abrirModalCobranca(${JSON.stringify(b).replace(/"/g,'&quot;')})" style="font-size:12px;padding:3px 8px;margin-right:4px;" title="Enviar e-mail">✉️</button>` : ''}
+        <button onclick="abrirModalWhatsApp(${JSON.stringify(b).replace(/"/g,'&quot;')})" class="btn-wsp" style="font-size:12px;padding:3px 8px;margin-right:4px;" title="Enviar WhatsApp">💬 WA</button>
+        ${isAdmin ? `<button onclick="editarBoleto(${JSON.stringify(b).replace(/"/g,'&quot;')})" style="font-size:12px;padding:3px 8px;margin-right:4px;">✏️</button>` : ''}
+        ${(isAdmin || usuarioAtual.role === 'representante') ? `<button class="btn-danger" onclick="excluirBoleto('${b.id}')" style="font-size:12px;padding:3px 8px;">🗑️</button>` : ''}
+      </td></tr>`;
+  });
+  const colsCount = (canDelete ? 1 : 0) + cols.length + 1;
+  html+=`</tbody><tfoot class="tbl-total"><tr><td colspan="${colsCount - 2}" style="text-align:right;color:var(--text-2);font-size:12px;">Total da página</td><td style="font-weight:600;">${formatMoney(totalGeral)}</td><td colspan="2"></td></tr></tfoot></table></div>`;
+
+  if (totalPaginas > 1) {
+    html += '<div class="pagination">';
+    for (let i = 1; i <= totalPaginas; i++) {
+      html += `<button class="btn-page${i===paginaAtual?' active':''}" onclick="mudarPagina(${i}, ${isAdmin}, '${targetId}')">${i}</button>`;
+    }
+    html += '</div>';
+  }
+
+  /* ── MOBILE CARDS ── */
+  html += '<div class="mobile-cards">';
+  paginados.forEach(b => {
+    const venc = formatarData(b.vencimento);
+    const hoje = new Date(); hoje.setHours(0,0,0,0);
+    const dv   = new Date(b.vencimento.replace(/(\d{2})\/(\d{2})\/(\d{4})/,'$3-$2-$1')||b.vencimento);
+    dv.setHours(0,0,0,0);
+    const diff = Math.floor((hoje - dv) / 86400000);
+    const vencClass = diff > 30 ? 'danger' : diff > 0 ? 'warn' : '';
+    const cliente = b.cliente || '—';
+    const rep     = b.representante || '—';
+    const pdfBtn  = b.downloadUrl ? `<button class="m-btn" onclick="abrirPrevia('${b.downloadUrl}','${b.nf}','${b.parcela}')">⬇ PDF</button>` : `<button class="m-btn" disabled>Sem PDF</button>`;
+    const wspBtn  = `<button class="m-btn btn-wsp" onclick="abrirModalWhatsApp(${JSON.stringify(b).replace(/"/g,'&quot;')})">💬 WA</button>`;
+    const delBtn = (isAdmin || (usuarioAtual && usuarioAtual.role === 'representante')) ? `<button class="m-btn danger" onclick="excluirBoleto('${b.id}')">🗑️</button>` : '';
+    const chkHtml = canDelete ? `<div class="m-chk-row"><input type="checkbox" class="chk-boleto" data-id="${b.id}" data-target="${targetId}" onchange="atualizarContador('${targetId}')"/> <span style="font-size:12px;color:var(--text-2);">Selecionar</span></div>` : '';
+    html += `
+    <div class="m-boleto-card" id="mcard-${b.id}">
+      <div class="m-boleto-row">
+        <div class="m-left"><span class="m-nf">NF ${b.nf} · P${b.parcela}</span><span class="m-client">${cliente}</span><span class="m-cnpj">${b.cnpj||'—'}</span><span style="margin-top:4px;">${badge(b.status)}</span></div>
+        <div class="m-right"><span class="m-val">${formatMoney(b.valor)}</span><span class="m-venc ${vencClass}">${venc}</span><div class="m-actions">${pdfBtn}${wspBtn}${delBtn}</div></div>
+      </div>${chkHtml}
+    </div>`;
+  });
+  const totalGeral2 = paginados.reduce((s,b) => s+Number(b.valor||0), 0);
+  html += `<div class="m-total">Total: <strong>${formatMoney(totalGeral2)}</strong></div></div>`;
+  document.getElementById(targetId).innerHTML=html;
+}
+
+function sortTabela(col, isAdmin, targetId){
+  paginaAtual = 1;
+  if(sortCol===col){ sortDir*=-1; } else { sortCol=col; sortDir=1; }
+  renderTabela(boletosCarregados, isAdmin==='true' || isAdmin===true, targetId);
+}
+function mudarPagina(novaPagina, isAdmin, targetId) {
+  paginaAtual = novaPagina;
+  renderTabela(boletosCarregados, isAdmin, targetId);
+  document.getElementById(targetId).scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ── MODAL COBRANÇA (E-MAIL) ── */
+function abrirModalCobranca(b){
+  const venc = formatarData(b.vencimento);
+  const cliente = b.cliente || 'Cliente';
+  const emailCliente = b.email_cliente || b.emailCliente || '';
+
+  document.getElementById('cob-email').value = emailCliente;
+  document.getElementById('cob-assunto').value = `Cobrança — NF ${b.nf} Parcela ${b.parcela} — ${formatMoney(b.valor)}`;
+
+  const msg =
+`Prezado(a) ${cliente},
+
+Informamos que o boleto abaixo encontra-se em aberto em nosso sistema:
+
+  • Nota Fiscal: ${b.nf}
+  • Parcela: ${b.parcela}
+  • Valor: ${formatMoney(b.valor)}
+  • Vencimento: ${venc}
+
+Solicitamos a regularização o quanto antes. Em caso de dúvidas ou para negociação, entre em contato conosco.
+
+Atenciosamente,
+Leal Embalagens de Papel
+cobranca@lealembalagens.com.br`;
+
+  document.getElementById('cob-mensagem').value = msg;
+  document.getElementById('cob-nf').value = b.nf;
+  document.getElementById('cob-parcela').value = b.parcela;
+  document.getElementById('cob-cliente').value = cliente;
+  document.getElementById('cob-valor').value = formatMoney(b.valor);
+  document.getElementById('cob-vencimento').value = venc;
+  document.getElementById('cob-download-url').value = b.downloadUrl || '';
+  document.getElementById('msg-cobranca').innerHTML = '';
+  document.getElementById('modal-cobranca').classList.remove('hidden');
+}
+function fecharModalCobranca(){
+  document.getElementById('modal-cobranca').classList.add('hidden');
+}
+async function enviarCobranca(){
+  const email    = document.getElementById('cob-email').value.trim();
+  const assunto  = document.getElementById('cob-assunto').value.trim();
+  const mensagem = document.getElementById('cob-mensagem').value.trim();
+  const msgEl    = document.getElementById('msg-cobranca');
+  if(!email){ msgEl.innerHTML='<div class="msg-erro">Informe o e-mail do destinatário.</div>'; return; }
+  if(!assunto){ msgEl.innerHTML='<div class="msg-erro">Informe o assunto.</div>'; return; }
+  msgEl.innerHTML='<p style="color:var(--text-2);font-size:13px;">Enviando...</p>';
+  const res = await apiPost({
+    action: 'enviar_cobranca', email, assunto, mensagem,
+    nf:          document.getElementById('cob-nf').value,
+    parcela:     document.getElementById('cob-parcela').value,
+    cliente:     document.getElementById('cob-cliente').value,
+    valor:       document.getElementById('cob-valor').value,
+    vencimento:  document.getElementById('cob-vencimento').value,
+    downloadUrl: document.getElementById('cob-download-url').value
+  });
+  if(res.ok){
+    msgEl.innerHTML='<div class="msg-ok">✅ E-mail enviado com sucesso!</div>';
+    setTimeout(()=> fecharModalCobranca(), 2000);
+  } else {
+    msgEl.innerHTML=`<div class="msg-erro">Erro ao enviar: ${res.erro||'tente novamente.'}</div>`;
+  }
+}
+
+/* ── MODAL COBRANÇA (WHATSAPP) ── */
+function abrirModalWhatsApp(b){
+  const venc = formatarData(b.vencimento);
+  const cliente = b.cliente || 'Cliente';
+  const repNome = (usuarioAtual && usuarioAtual.nome) ? usuarioAtual.nome : 'Leal Embalagens';
+
+  document.getElementById('wsp-telefone').value = '';
+  
+  const msg = `Olá, *${cliente}*!\n\nTudo bem? Passando para lembrar sobre o título em aberto:\n\n📄 *Nota Fiscal:* ${b.nf}\n🔢 *Parcela:* ${b.parcela}\n💰 *Valor:* ${formatMoney(b.valor)}\n📅 *Vencimento:* ${venc}\n\nSe precisar do arquivo do boleto ou de qualquer auxílio, é só me avisar por aqui!\n\nAtenciosamente,\n*${repNome}* — Leal Embalagens`;
+
+  document.getElementById('wsp-mensagem').value = msg;
+  document.getElementById('modal-whatsapp').classList.remove('hidden');
+}
+
+function fecharModalWhatsApp(){
+  document.getElementById('modal-whatsapp').classList.add('hidden');
+}
+
+function dispararWhatsApp(){
+  let tel = document.getElementById('wsp-telefone').value.replace(/\D/g, '');
+  const msg = document.getElementById('wsp-mensagem').value;
+  if(!tel || tel.length < 10){
+    alert('Informe um número de telefone/WhatsApp válido com DDD (Ex: 11999998888).');
+    return;
+  }
+  if(!tel.startsWith('55') && tel.length <= 11){
+    tel = '55' + tel;
+  }
+  const url = `https://wa.me/${tel}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+  fecharModalWhatsApp();
+}
+
+function abrirPrevia(downloadUrl, nf, parcela){
+  const match = downloadUrl.match(/id=([^&]+)/);
+  if(!match){ window.open(downloadUrl,'_blank'); return; }
+  const fileId = match[1];
+  const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+  document.getElementById('preview-title').textContent = `NF ${nf} — Parcela ${parcela}`;
+  document.getElementById('preview-sub').textContent = 'Clique em Baixar PDF para salvar o arquivo';
+  document.getElementById('preview-iframe').src = previewUrl;
+  document.getElementById('preview-download-link').href = downloadUrl;
+  const panel = document.getElementById('preview-panel');
+  const backdrop = document.getElementById('preview-backdrop');
+  panel.style.display = 'flex'; backdrop.style.display = 'block';
+  panel.getBoundingClientRect();
+  panel.style.transform = 'translateX(0)'; backdrop.style.opacity = '1';
+}
+function fecharPrevia(){
+  const panel = document.getElementById('preview-panel');
+  const backdrop = document.getElementById('preview-backdrop');
+  panel.style.transform = 'translateX(100%)'; backdrop.style.opacity = '0';
+  setTimeout(()=>{
+    panel.style.display = 'none'; backdrop.style.display = 'none';
+    document.getElementById('preview-iframe').src = '';
+  }, 320);
+}
+
+/* ── EXPORTAR CSV ── */
+function exportarCSV(){
+  if(!boletosCarregados.length) return;
+  const headers=['Nota Fiscal','Parcela','CNPJ','Cliente','Valor (R$)','Vencimento','Representante'];
+  const rows=boletosCarregados.map(b=>[
+    b.nf, b.parcela, b.cnpj||'', b.cliente||'',
+    Number(b.valor).toFixed(2).replace('.',','),
+    formatarData(b.vencimento), b.representante||''
+  ]);
+  const csv=[headers,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='boletos_leal.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ── USUÁRIOS ── */
+async function carregarUsuarios(){
+  document.getElementById('result-usuarios').innerHTML='<div class="loading">Carregando...</div>';
+  const res=await api({action:'usuarios'}); const usuarios=res.usuarios||[];
+  if(!usuarios.length){document.getElementById('result-usuarios').innerHTML='<p style="text-align:center;padding:2rem;color:var(--text-2);font-size:14px;">Nenhum usuário cadastrado</p>';return;}
+  let html=`<table><thead><tr><th>Nome</th><th>Login</th><th>CNPJ / Representante</th><th>Ações</th></tr></thead><tbody>`;
+  usuarios.forEach(u=>{
+    let info = u.cnpj ? u.cnpj : (u.representante ? `Rep: ${u.representante}` : 'Admin');
+    html+=`<tr><td>${u.nome}</td><td><code style="font-size:12px;">${u.login}</code></td><td style="font-size:12px;color:var(--text-2);">${info}</td>
+    <td><button onclick="editarUsuario(${JSON.stringify(u).replace(/"/g,'&quot;')})" style="font-size:12px;padding:3px 8px;margin-right:4px;">✏️ Editar</button>
+    <button class="btn-danger" onclick="excluirUsuario('${u.id}')" style="font-size:12px;padding:3px 8px;">🗑️</button></td></tr>`;
+  });
+  html+='</tbody></table>';
+  document.getElementById('result-usuarios').innerHTML=html;
+}
+
+/* ── TABS ── */
+function mostrarTab(tabId,btn){
+  ['tab-boletos','tab-usuarios','tab-novo-boleto','tab-novo-usuario'].forEach(t=>document.getElementById(t).classList.add('hidden'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(tabId).classList.remove('hidden'); btn.classList.add('active');
+  document.getElementById('msg-admin').innerHTML='';
+  if(tabId==='tab-usuarios') carregarUsuarios();
+}
+
+/* ── BOLETOS CRUD ── */
+async function salvarBoleto(){
+  const id=document.getElementById('nb-id').value;
+  const data={
+    action:'salvar_boleto',id:id||null,
+    nf:document.getElementById('nb-nf').value.trim(),
+    parcela:document.getElementById('nb-parcela').value.trim(),
+    cnpj:document.getElementById('nb-cnpj').value.trim(),
+    valor:document.getElementById('nb-valor').value,
+    vencimento:document.getElementById('nb-venc').value,
+    representante:document.getElementById('nb-representante').value,
+    cliente:document.getElementById('nb-cliente').value.trim(),
+    email_cliente:document.getElementById('nb-email').value.trim(),
+    status:document.getElementById('nb-status').value
+  };
+  if(!data.nf||!data.parcela||!data.cnpj||!data.valor||!data.vencimento){alert('Preencha os campos obrigatórios.');return;}
+  const res=await apiPost(data);
+  if(res.ok){
+    alert(id?'Boleto atualizado!':'Boleto cadastrado!');
+    cancelarFormBoleto(); mostrarTab('tab-boletos',document.querySelectorAll('.tab')[0]); buscarBoletos('admin');
+  } else {alert('Erro: '+res.erro);}
+}
+
+function editarBoleto(b){
+  document.getElementById('nb-id').value=b.id; document.getElementById('nb-nf').value=b.nf;
+  document.getElementById('nb-parcela').value=b.parcela; document.getElementById('nb-cnpj').value=b.cnpj;
+  document.getElementById('nb-valor').value=b.valor; document.getElementById('nb-venc').value=b.vencimento;
+  document.getElementById('nb-representante').value=b.representante||'';
+  document.getElementById('nb-cliente').value=b.cliente||'';
+  document.getElementById('nb-email').value=b.email_cliente||'';
+  document.getElementById('nb-status').value=b.status;
+  document.getElementById('lbl-form-boleto').textContent='Editar boleto';
+  mostrarTab('tab-novo-boleto',document.querySelectorAll('.tab')[2]);
+}
+
+async function excluirBoleto(id){
+  if(!confirm('Excluir este boleto?')) return;
+  const res=await apiPost({action:'excluir_boleto', id, fonte: fonteAtual});
+  if(res.ok){
+    const row = document.getElementById('row-'+id); if(row) row.remove();
+    const mcard = document.getElementById('mcard-'+id); if(mcard) mcard.remove();
+    boletosCarregados = boletosCarregados.filter(b => b.id !== id);
+    atualizarContador(tipoAtual === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn');
+  }
+}
+
+/* ── CHECKBOX / BULK DELETE ── */
+function toggleTodos(chkAll, targetId){
+  document.querySelectorAll(`#${targetId} .chk-boleto`).forEach(c => {
+    c.checked = chkAll.checked;
+    c.closest('tr').classList.toggle('row-selected', chkAll.checked);
+  });
+  atualizarContador(targetId);
+}
+
+function atualizarContador(targetId){
+  const checked = document.querySelectorAll(`#${targetId} .chk-boleto:checked`).length;
+  const isAdmin = targetId === 'result-boletos-admin';
+  const btnId   = isAdmin ? 'btn-bulk-admin' : 'btn-bulk-forn';
+  const countId = isAdmin ? 'count-admin'    : 'count-forn';
+  const btn     = document.getElementById(btnId);
+  if(btn){
+    document.getElementById(countId).textContent = checked;
+    btn.classList.toggle('hidden', checked === 0);
+  }
+  const total = document.querySelectorAll(`#${targetId} .chk-boleto`).length;
+  const chkAll = document.getElementById('chk-all-'+targetId);
+  if(chkAll) chkAll.indeterminate = checked > 0 && checked < total;
+  if(chkAll) chkAll.checked = total > 0 && checked === total;
+  document.querySelectorAll(`#${targetId} .chk-boleto`).forEach(c => {
+    c.closest('tr').classList.toggle('row-selected', c.checked);
+  });
+}
+
+async function excluirSelecionados(targetId){
+  const checkboxes = [...document.querySelectorAll(`#${targetId} .chk-boleto:checked`)];
+  if(!checkboxes.length) return;
+  if(!confirm(`Excluir ${checkboxes.length} boleto(s) selecionado(s)?`)) return;
+  const ids = checkboxes.map(c => c.dataset.id);
+  const btnId = targetId === 'result-boletos-admin' ? 'btn-bulk-admin' : 'btn-bulk-forn';
+  const btn = document.getElementById(btnId);
+  const btnHtmlOriginal = btn ? btn.innerHTML : '';
+  if(btn){ btn.textContent = '⏳ Excluindo...'; btn.disabled = true; }
+  let erros = 0;
+  for(const id of ids){
+    const res = await apiPost({action:'excluir_boleto', id, fonte: fonteAtual});
+    if(res.ok){
+      const row = document.getElementById('row-'+id); if(row) row.remove();
+      const mcard = document.getElementById('mcard-'+id); if(mcard) mcard.remove();
+      boletosCarregados = boletosCarregados.filter(b => b.id !== id);
+    } else { erros++; }
+  }
+  if(btn){ btn.innerHTML = btnHtmlOriginal; btn.disabled = false; }
+  atualizarContador(targetId);
+  if(erros > 0) alert(`${erros} boleto(s) não puderam ser excluídos.`);
+}
+
+function cancelarFormBoleto(){
+  ['nb-id','nb-nf','nb-parcela','nb-cnpj','nb-valor','nb-venc','nb-cliente','nb-email'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('nb-representante').selectedIndex=0;
+  document.getElementById('nb-status').value='pendente';
+  document.getElementById('lbl-form-boleto').textContent='Cadastrar novo boleto';
+}
+
+/* ── USUÁRIOS CRUD ── */
+async function salvarUsuario(){
+  const id=document.getElementById('nu-id').value;
+  const data={action:'salvar_usuario',id:id||null,
+    nome:document.getElementById('nu-nome').value.trim(),
+    cnpj:document.getElementById('nu-cnpj').value.trim(),
+    login:document.getElementById('nu-login').value.trim(),
+    senha:document.getElementById('nu-senha').value.trim(),
+    representante:document.getElementById('nu-representante').value};
+  if(!data.nome||!data.login){alert('Preencha os campos obrigatórios (Nome e Login).');return;}
+  if(!id&&!data.senha){alert('Informe uma senha.');return;}
+  const res=await apiPost(data);
+  if(res.ok){
+    alert(id?'Usuário atualizado com sucesso!':'Usuário cadastrado com sucesso!');
+    cancelarFormUsuario(); mostrarTab('tab-usuarios',document.querySelectorAll('.tab')[1]);
+  } else {alert('Erro: '+res.erro);}
+}
+function editarUsuario(u){
+  document.getElementById('nu-id').value=u.id; document.getElementById('nu-nome').value=u.nome;
+  document.getElementById('nu-cnpj').value=u.cnpj; document.getElementById('nu-login').value=u.login;
+  document.getElementById('nu-senha').value='';
+  document.getElementById('nu-representante').value=u.representante||'';
+  document.getElementById('lbl-form-usuario').textContent='Editar usuário';
+  mostrarTab('tab-novo-usuario',document.querySelectorAll('.tab')[3]);
+}
+async function excluirUsuario(id){
+  if(!confirm('Excluir este usuário?')) return;
+  const res=await apiPost({action:'excluir_usuario',id}); if(res.ok) carregarUsuarios();
+}
+function cancelarFormUsuario(){
+  ['nu-id','nu-nome','nu-cnpj','nu-login','nu-senha'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('nu-representante').selectedIndex=0;
+  document.getElementById('lbl-form-usuario').textContent='Cadastrar usuário';
+}
+
+document.getElementById('inp-senha').addEventListener('keypress',e=>{if(e.key==='Enter') fazerLogin();});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') fecharPrevia(); });
+
+['fa-nf','fa-parcela','fa-cnpj','fa-representante'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('keypress',e=>{if(e.key==='Enter') buscarBoletos('admin');});
+});
+
+['ff-nf','ff-parcela','ff-representante','ff-cnpj'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('keypress',e=>{if(e.key==='Enter') buscarBoletos('fornecedor');});
+});
+</script>
+</body>
+</html>
