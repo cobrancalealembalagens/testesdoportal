@@ -195,7 +195,6 @@ tbody tr:hover td{background:var(--row-hover);}
 .pill-status.p-negativado.active{background:#fce7f3;color:#9d174d;border-color:#f9a8d4;}
 .pill-status.p-protestado.active{background:#fef3c7;color:#92400e;border-color:#fcd34d;}
 
-/* --- NOVAS CORES PARA O FILTRO DE PDF --- */
 .pill-status.p-compdf.active{background:#d1e7dd;color:#0a6640;border-color:#a3cfbb;}
 .pill-status.p-sempdf.active{background:#f8d7da;color:#842029;border-color:#f1aeb5;}
 [data-theme="dark"] .pill-status.p-compdf.active{background:#0a2e1a;color:#60c090;border-color:#0a2e1a;}
@@ -821,10 +820,24 @@ function normalizar(v){
   return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
 }
 
-/* ── STATUS PILLS COM FILTRO PDF ── */
+/* ── HELPER DE FILTRO GLOBAL ── */
+function getListaFiltrada(tipo){
+  const filtro = pillFiltroAtual[tipo] || '';
+  if (filtro === 'compdf') {
+    return boletosCarregados.filter(b => b.downloadUrl);
+  } else if (filtro === 'sempdf') {
+    return boletosCarregados.filter(b => !b.downloadUrl);
+  } else if (filtro !== '') {
+    return boletosCarregados.filter(b => normalizar(b.status) === filtro);
+  }
+  return boletosCarregados;
+}
+
+/* ── STATUS PILLS COM FILTRO PERSISTENTE ── */
 let pillFiltroAtual = {admin:'', fornecedor:''};
 function filtrarPill(status, tipo){
   pillFiltroAtual[tipo] = status;
+  paginaAtual = 1;
   const prefix = tipo === 'admin' ? 'admin' : 'forn';
   document.querySelectorAll(`#pills-${prefix} .pill-status`).forEach(p => p.classList.remove('active'));
   const alvo = status === '' ? 'p-all' : `p-${status}`;
@@ -832,15 +845,8 @@ function filtrarPill(status, tipo){
   const targetId = tipo === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
   const isAdmin = tipo === 'admin';
   
-  let filtrados = boletosCarregados;
-  if (status === 'compdf') {
-    filtrados = boletosCarregados.filter(b => b.downloadUrl);
-  } else if (status === 'sempdf') {
-    filtrados = boletosCarregados.filter(b => !b.downloadUrl);
-  } else if (status !== '') {
-    filtrados = boletosCarregados.filter(b => normalizar(b.status) === status);
-  }
-
+  const filtrados = getListaFiltrada(tipo);
+  atualizarTotalizador(filtrados, tipo);
   renderTabela(filtrados, isAdmin, targetId);
 }
 
@@ -880,6 +886,7 @@ function mostrarTabelaVazia(id){
 /* ── LIMPAR FILTROS ── */
 function limparFiltros(tipo){
   sortCol=null; sortDir=1; paginaAtual = 1;
+  pillFiltroAtual[tipo] = '';
   if(tipo==='admin'){
     ['fa-nf','fa-parcela','fa-cnpj'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('fa-representante').selectedIndex=0;
@@ -912,6 +919,7 @@ function setFonte(fonte, tipo) {
   mostrarTabelaVazia(targetId);
   document.getElementById(barId).classList.add('hidden');
   boletosCarregados = [];
+  pillFiltroAtual[tipo] = '';
   sortCol = null; sortDir = 1; paginaAtual = 1;
 }
 
@@ -926,17 +934,8 @@ function setViewMode(mode, prefix){
   const tipo = prefix === 'admin' ? 'admin' : 'fornecedor';
   const targetId = prefix === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
   const isAdmin = prefix === 'admin';
-  const filtro = pillFiltroAtual[tipo] || '';
   
-  let lista = boletosCarregados;
-  if (filtro === 'compdf') {
-    lista = boletosCarregados.filter(b => b.downloadUrl);
-  } else if (filtro === 'sempdf') {
-    lista = boletosCarregados.filter(b => !b.downloadUrl);
-  } else if (filtro !== '') {
-    lista = boletosCarregados.filter(b => normalizar(b.status) === filtro);
-  }
-  
+  const lista = getListaFiltrada(tipo);
   renderTabela(lista, isAdmin, targetId);
 }
 
@@ -1117,11 +1116,16 @@ function renderTabela(boletos, isAdmin, targetId){
 function sortTabela(col, isAdmin, targetId){
   paginaAtual = 1;
   if(sortCol===col){ sortDir*=-1; } else { sortCol=col; sortDir=1; }
-  renderTabela(boletosCarregados, isAdmin==='true' || isAdmin===true, targetId);
+  const tipo = (targetId === 'result-boletos-admin') ? 'admin' : 'fornecedor';
+  const filtrados = getListaFiltrada(tipo);
+  renderTabela(filtrados, isAdmin==='true' || isAdmin===true, targetId);
 }
+
 function mudarPagina(novaPagina, isAdmin, targetId) {
   paginaAtual = novaPagina;
-  renderTabela(boletosCarregados, isAdmin, targetId);
+  const tipo = (targetId === 'result-boletos-admin') ? 'admin' : 'fornecedor';
+  const filtrados = getListaFiltrada(tipo);
+  renderTabela(filtrados, isAdmin, targetId);
   document.getElementById(targetId).scrollIntoView({behavior:'smooth', block:'start'});
 }
 
@@ -1340,6 +1344,9 @@ async function excluirBoleto(id){
     const row = document.getElementById('row-'+id); if(row) row.remove();
     const mcard = document.getElementById('mcard-'+id); if(mcard) mcard.remove();
     boletosCarregados = boletosCarregados.filter(b => b.id !== id);
+    const tipo = tipoAtual === 'admin' ? 'admin' : 'fornecedor';
+    const filtrados = getListaFiltrada(tipo);
+    atualizarTotalizador(filtrados, tipo);
     atualizarContador(tipoAtual === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn');
   }
 }
@@ -1391,6 +1398,9 @@ async function excluirSelecionados(targetId){
     } else { erros++; }
   }
   if(btn){ btn.innerHTML = btnHtmlOriginal; btn.disabled = false; }
+  const tipo = targetId === 'result-boletos-admin' ? 'admin' : 'fornecedor';
+  const filtrados = getListaFiltrada(tipo);
+  atualizarTotalizador(filtrados, tipo);
   atualizarContador(targetId);
   if(erros > 0) alert(`${erros} boleto(s) não puderam ser excluídos.`);
 }
