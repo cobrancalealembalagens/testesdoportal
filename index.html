@@ -30,13 +30,13 @@ html{scroll-behavior:smooth;}
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text-1);min-height:100vh;background:var(--bg-gradient);transition:background .4s,color .4s;}
-.container{max-width:960px;margin:0 auto;padding:2rem 1rem;}
-.card{background:var(--card-bg);border-radius:12px;border:1px solid var(--border);padding:1.5rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:background .4s,border-color .4s;}
+.container{max-width:1200px;margin:0 auto;padding:1.5rem 1rem;}
+.card{background:var(--card-bg);border-radius:12px;border:1px solid var(--border);padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:background .4s,border-color .4s;}
 h1{font-size:20px;font-weight:600;}
 label{font-size:12px;color:var(--text-2);display:block;margin-bottom:4px;transition:color .4s;}
 input,select{width:100%;padding:8px 12px;border:1px solid var(--input-bd);border-radius:8px;font-size:14px;outline:none;background:var(--card-bg);color:var(--text-1);transition:background .4s,border-color .4s,color .4s;}
 input:focus,select:focus{border-color:var(--focus);box-shadow:0 0 0 3px rgba(0,87,184,.12);}
-button{padding:8px 20px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);font-size:14px;cursor:pointer;color:var(--text-1);font-family:inherit;transition:background .2s,color .2s,border-color .4s,opacity .2s;}
+button{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);font-size:13px;cursor:pointer;color:var(--text-1);font-family:inherit;transition:background .2s,color .2s,border-color .4s,opacity .2s;}
 .btn-primary{background:var(--btn-bg)!important;color:var(--btn-color)!important;border-color:var(--btn-bg)!important;}
 .btn-primary:hover{opacity:.88;}
 .btn-danger{color:#c0392b!important;border-color:#f5c6cb!important;}
@@ -46,11 +46,11 @@ button{padding:8px 20px;border-radius:8px;border:1px solid var(--border);backgro
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;}
 .grid-5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:12px;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text-2);font-weight:500;font-size:12px;transition:color .4s,border-color .4s;}
-td{padding:10px 10px;border-bottom:1px solid var(--border);color:var(--text-1);transition:color .4s,border-color .4s;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--border);color:var(--text-2);font-weight:600;font-size:11px;white-space:nowrap;transition:color .4s,border-color .4s;}
+td{padding:10px 8px;border-bottom:1px solid var(--border);color:var(--text-1);font-size:12px;transition:color .4s,border-color .4s;}
 tr:hover td{background:var(--row-hover);}
-.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500;}
+.badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap;}
 .badge-pendente{background:var(--bp-bg);color:var(--bp-c);}
 .badge-pago{background:var(--bpg-bg);color:var(--bpg-c);}
 .badge-vencido{background:var(--bv-bg);color:var(--bv-c);}
@@ -69,12 +69,12 @@ tr:hover td{background:var(--row-hover);}
 [data-theme="dark"] .tab.active{background:var(--card-bg);color:#93c5fd;box-shadow:0 2px 6px rgba(0,0,0,.08), inset 0 0 0 2px #93c5fd;}
 .tab:hover:not(.active){background:var(--card-bg2);opacity:.9;}
 .pagination{display:flex;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap;}
-.btn-page{padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-1);font-size:13px;cursor:pointer;transition:all .2s;}
+.btn-page{padding:5px 11px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-1);font-size:12px;cursor:pointer;transition:all .2s;}
 .btn-page.active{background:var(--btn-bg);color:var(--btn-color);border-color:var(--btn-bg);font-weight:bold;}
 .btn-page:hover:not(.active){background:var(--row-hover);}
 .hidden{display:none!important;}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:8px;flex-wrap:wrap;}
-.header-logo{height:56px;border-radius:8px;box-shadow:0 3px 12px rgba(0,0,0,.25);flex-shrink:0;}
+.header-logo{height:52px;border-radius:8px;box-shadow:0 3px 12px rgba(0,0,0,.25);flex-shrink:0;}
 .header-title{text-align:center;flex:1;}
 .header-title h1{color:var(--text-hdr);text-shadow:0 1px 6px rgba(0,0,0,.3);transition:color .4s;}
 .header-title p{font-size:12px;color:rgba(255,255,255,.8);margin-top:2px;}
@@ -105,31 +105,31 @@ tr:hover td{background:var(--row-hover);}
 .btn-popup{display:block;width:100%;background:linear-gradient(90deg,#002f6c,#0057b8);color:#fff;border:none;border-radius:10px;padding:13px;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:18px;font-family:inherit;transition:opacity .18s;}
 .btn-popup:hover{opacity:.88;}
 .export-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap;}
-.btn-export{background:var(--export-bg);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.btn-export{background:var(--export-bg);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
 .btn-export:hover{opacity:.88;}
 .fonte-toggle{display:flex;gap:0;border-radius:8px;overflow:hidden;border:1.5px solid var(--btn-bg);margin-bottom:14px;width:fit-content;}
-.fonte-btn{padding:7px 18px;font-size:13px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--btn-bg);font-family:inherit;transition:background .18s,color .18s;}
+.fonte-btn{padding:6px 16px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--btn-bg);font-family:inherit;transition:background .18s,color .18s;}
 .fonte-btn.active{background:var(--btn-bg);color:#fff;}
 .fonte-btn:first-child{border-right:1.5px solid var(--btn-bg);}
 [data-theme="dark"] .fonte-toggle{border-color:#4a9af0;}
 [data-theme="dark"] .fonte-btn{color:#4a9af0;}
 [data-theme="dark"] .fonte-btn.active{background:#1a6fd4;color:#fff;}
 [data-theme="dark"] .fonte-btn:first-child{border-right-color:#4a9af0;}
-.btn-bulk-delete{background:#c0392b;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .18s;}
+.btn-bulk-delete{background:#c0392b;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .18s;}
 .btn-bulk-delete:hover{opacity:.85;}
 .bulk-actions{display:flex;align-items:center;gap:10px;}
-input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--btn-bg);}
+input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--btn-bg);}
 th input[type=checkbox]{margin:0;}
-td.col-check{width:32px;text-align:center;}
-th.col-check{width:32px;text-align:center;}
+td.col-check{width:28px;text-align:center;}
+th.col-check{width:28px;text-align:center;}
 tr.row-selected td{background:rgba(0,87,184,.07)!important;}
 [data-theme="dark"] tr.row-selected td{background:rgba(100,160,255,.08)!important;}
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .view-toggle{display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);width:fit-content;margin-bottom:10px;}
-.view-btn{padding:6px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--text-2);font-family:inherit;transition:background .15s,color .15s;display:flex;align-items:center;gap:5px;}
+.view-btn{padding:5px 12px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--text-2);font-family:inherit;transition:background .15s,color .15s;display:flex;align-items:center;gap:5px;}
 .view-btn.active{background:var(--btn-bg);color:#fff;}
 .view-btn:first-child{border-right:1px solid var(--border);}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
 .boleto-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s,background .4s;}
 .boleto-card:hover{border-color:var(--focus);}
 .boleto-card.card-selected{border-color:var(--btn-bg);background:rgba(0,87,184,.04);}
@@ -142,14 +142,14 @@ tr.row-selected td{background:rgba(0,87,184,.07)!important;}
 .bc-cnpj{font-size:11px;color:var(--text-2);cursor:pointer;border-bottom:1px dashed var(--border);}
 .bc-cnpj:hover{color:var(--btn-bg);}
 .bc-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
-.bc-val{font-size:15px;font-weight:600;color:var(--text-1);}
-.bc-venc{font-size:12px;color:var(--text-2);}
+.bc-val{font-size:14px;font-weight:600;color:var(--text-1);white-space:nowrap;}
+.bc-venc{font-size:12px;color:var(--text-2);white-space:nowrap;}
 .bc-venc.warn{color:#d97706;font-weight:500;}
 .bc-venc.danger{color:#dc2626;font-weight:500;}
 .bc-footer{border-top:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .bc-rep{font-size:12px;color:var(--text-2);}
-.bc-actions{display:flex;gap:6px;}
-.bc-btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--card-bg);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-1);display:flex;align-items:center;gap:4px;transition:background .15s;}
+.bc-actions{display:flex;gap:4px;}
+.bc-btn{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);font-size:11px;font-weight:500;cursor:pointer;color:var(--text-1);display:flex;align-items:center;gap:3px;transition:background .15s;}
 .bc-btn:hover{background:var(--card-bg2);}
 .bc-btn.danger{color:#c0392b;border-color:#f5c6cb;}
 .bc-btn:disabled{opacity:.4;cursor:default;}
@@ -168,8 +168,8 @@ tbody tr:hover td{background:var(--row-hover);}
 .th-sort.asc .sort-icon::after{content:'▲';}
 .th-sort.desc .sort-icon::after{content:'▼';}
 .th-sort:not(.asc):not(.desc) .sort-icon::after{content:'⇅';}
-.btn-ext-looker{background:#4285f4;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .18s;}
-.btn-ext-pipefy{background:#1c8a5e;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .18s;}
+.btn-ext-looker{background:#4285f4;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .18s;}
+.btn-ext-pipefy{background:#1c8a5e;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .18s;}
 .btn-ext-looker:hover,.btn-ext-pipefy:hover{opacity:.85;}
 .footer{text-align:center;padding:2rem 1rem 1.5rem;font-size:12px;color:rgba(255,255,255,.55);line-height:1.7;}
 .greeting{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;margin-bottom:14px;color:rgba(255,255,255,.9);font-size:14px;backdrop-filter:blur(4px);}
@@ -188,18 +188,25 @@ tbody tr:hover td{background:var(--row-hover);}
 [data-theme="dark"] .dash-cobrado .dash-val{color:#60a8f0;}
 [data-theme="dark"] .dash-protestado .dash-val{color:#c084fc;}
 .status-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-.pill-status{padding:4px 13px;border-radius:20px;border:1px solid var(--border);background:var(--card-bg);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-2);transition:all .15s;font-family:inherit;}
+.pill-status{padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card-bg);font-size:11px;font-weight:500;cursor:pointer;color:var(--text-2);transition:all .15s;font-family:inherit;}
 .pill-status:hover{border-color:var(--input-bd);}
 .pill-status.p-all.active{background:var(--btn-bg);color:#fff;border-color:var(--btn-bg);}
 .pill-status.p-cobrado.active{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd;}
 .pill-status.p-negativado.active{background:#fce7f3;color:#9d174d;border-color:#f9a8d4;}
 .pill-status.p-protestado.active{background:#fef3c7;color:#92400e;border-color:#fcd34d;}
+
+/* --- NOVAS CORES PARA O FILTRO DE PDF --- */
+.pill-status.p-compdf.active{background:#d1e7dd;color:#0a6640;border-color:#a3cfbb;}
+.pill-status.p-sempdf.active{background:#f8d7da;color:#842029;border-color:#f1aeb5;}
+[data-theme="dark"] .pill-status.p-compdf.active{background:#0a2e1a;color:#60c090;border-color:#0a2e1a;}
+[data-theme="dark"] .pill-status.p-sempdf.active{background:#2e0a0a;color:#f08080;border-color:#2e0a0a;}
+
 [data-theme="dark"] .pill-status.p-cobrado.active{background:#1e3a6e;color:#93c5fd;border-color:#1e3a6e;}
 [data-theme="dark"] .pill-status.p-negativado.active{background:#4a1030;color:#f9a8d4;border-color:#4a1030;}
 [data-theme="dark"] .pill-status.p-protestado.active{background:#3a2a00;color:#fcd34d;border-color:#3a2a00;}
 .totalizador{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--card-bg2);border-radius:8px;margin-bottom:8px;font-size:13px;color:var(--text-2);border:1px solid var(--border);transition:background .4s,border-color .4s;}
 .tot-num{font-weight:600;color:var(--btn-bg);}
-tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-top:2px solid var(--border);background:var(--card-bg2)!important;transition:background .4s;}
+tfoot.tbl-total td{padding:8px 6px;font-weight:600;color:var(--text-1);border-top:2px solid var(--border);background:var(--card-bg2)!important;transition:background .4s;}
 .cnpj-copiavel{cursor:pointer;border-bottom:1px dashed var(--border);transition:color .15s;}
 .cnpj-copiavel:hover{color:var(--btn-bg);}
 .cnpj-toast{display:inline-block;background:#d1e7dd;color:#0a6640;font-size:10px;padding:1px 5px;border-radius:4px;margin-left:4px;opacity:0;transition:opacity .2s;pointer-events:none;}
@@ -207,6 +214,7 @@ tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-t
 #btn-topo{position:fixed;bottom:24px;right:24px;width:42px;height:42px;border-radius:50%;background:var(--btn-bg);color:#fff;border:none;cursor:pointer;font-size:18px;box-shadow:0 4px 16px rgba(0,0,0,.2);display:none;align-items:center;justify-content:center;z-index:7777;transition:opacity .2s,transform .2s;}
 #btn-topo.show{display:flex;}
 #btn-topo:hover{transform:translateY(-2px);opacity:.88;}
+.btn-act{font-size:11px;padding:4px 8px;margin-right:4px;border-radius:6px;}
 @media(max-width:640px){
   .container{padding:1rem .75rem;}
   .header{gap:8px;}
@@ -216,8 +224,8 @@ tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-t
   .btn-hdr{font-size:11px;padding:6px 9px;}
   .grid-3,.grid-4,.grid-5{grid-template-columns:1fr 1fr;}
   .card{padding:1rem;}
-  table{font-size:12px;}
-  th,td{padding:7px 6px;}
+  table{font-size:11px;}
+  th,td{padding:6px 4px;}
   .tbl-wrap{display:none!important;}
   .mobile-cards{display:block!important;}
 }
@@ -226,7 +234,7 @@ tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-t
 }
 .mobile-cards{display:none;}
 .m-boleto-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;transition:background .4s,border-color .4s;}
-.m-boleto-row{display:flex;justify-content:space-between;align-items:flex-start;padding:13px 14px;gap:10px;}
+.m-boleto-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px;gap:10px;}
 .m-left{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
 .m-nf{font-size:14px;font-weight:600;color:var(--text-1);}
 .m-client{font-size:12px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -236,8 +244,8 @@ tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-t
 .m-venc{font-size:12px;color:var(--text-2);}
 .m-venc.warn{color:#d97706;font-weight:500;}
 .m-venc.danger{color:#dc2626;font-weight:500;}
-.m-actions{display:flex;gap:6px;margin-top:2px;}
-.m-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-1);display:flex;align-items:center;gap:4px;transition:background .15s;}
+.m-actions{display:flex;gap:4px;margin-top:2px;}
+.m-btn{padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--card-bg);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-1);display:flex;align-items:center;gap:4px;transition:background .15s;}
 .m-btn:hover{background:var(--card-bg2);}
 .m-btn.danger{color:#c0392b;border-color:#f5c6cb;}
 .m-btn:disabled{opacity:.4;cursor:default;}
@@ -416,6 +424,8 @@ tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-t
           <button class="pill-status p-cobrado" onclick="filtrarPill('cobrado','admin')">Cobrado</button>
           <button class="pill-status p-negativado" onclick="filtrarPill('negativado','admin')">Negativado</button>
           <button class="pill-status p-protestado" onclick="filtrarPill('protestado','admin')">Protestado</button>
+          <button class="pill-status p-compdf" onclick="filtrarPill('compdf','admin')">📎 Com PDF</button>
+          <button class="pill-status p-sempdf" onclick="filtrarPill('sempdf','admin')">⚠️ Sem PDF</button>
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           <div class="view-toggle">
@@ -554,6 +564,8 @@ tfoot.tbl-total td{padding:9px 10px;font-weight:600;color:var(--text-1);border-t
         <button class="pill-status p-cobrado" onclick="filtrarPill('cobrado','fornecedor')">Cobrado</button>
         <button class="pill-status p-negativado" onclick="filtrarPill('negativado','fornecedor')">Negativado</button>
         <button class="pill-status p-protestado" onclick="filtrarPill('protestado','fornecedor')">Protestado</button>
+        <button class="pill-status p-compdf" onclick="filtrarPill('compdf','fornecedor')">📎 Com PDF</button>
+        <button class="pill-status p-sempdf" onclick="filtrarPill('sempdf','fornecedor')">⚠️ Sem PDF</button>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div class="view-toggle">
@@ -809,7 +821,7 @@ function normalizar(v){
   return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
 }
 
-/* ── STATUS PILLS ── */
+/* ── STATUS PILLS COM FILTRO PDF ── */
 let pillFiltroAtual = {admin:'', fornecedor:''};
 function filtrarPill(status, tipo){
   pillFiltroAtual[tipo] = status;
@@ -819,7 +831,16 @@ function filtrarPill(status, tipo){
   document.querySelector(`#pills-${prefix} .${alvo}`)?.classList.add('active');
   const targetId = tipo === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
   const isAdmin = tipo === 'admin';
-  const filtrados = status === '' ? boletosCarregados : boletosCarregados.filter(b => normalizar(b.status) === status);
+  
+  let filtrados = boletosCarregados;
+  if (status === 'compdf') {
+    filtrados = boletosCarregados.filter(b => b.downloadUrl);
+  } else if (status === 'sempdf') {
+    filtrados = boletosCarregados.filter(b => !b.downloadUrl);
+  } else if (status !== '') {
+    filtrados = boletosCarregados.filter(b => normalizar(b.status) === status);
+  }
+
   renderTabela(filtrados, isAdmin, targetId);
 }
 
@@ -906,7 +927,16 @@ function setViewMode(mode, prefix){
   const targetId = prefix === 'admin' ? 'result-boletos-admin' : 'result-boletos-forn';
   const isAdmin = prefix === 'admin';
   const filtro = pillFiltroAtual[tipo] || '';
-  const lista = filtro ? boletosCarregados.filter(b => normalizar(b.status) === filtro) : boletosCarregados;
+  
+  let lista = boletosCarregados;
+  if (filtro === 'compdf') {
+    lista = boletosCarregados.filter(b => b.downloadUrl);
+  } else if (filtro === 'sempdf') {
+    lista = boletosCarregados.filter(b => !b.downloadUrl);
+  } else if (filtro !== '') {
+    lista = boletosCarregados.filter(b => normalizar(b.status) === filtro);
+  }
+  
   renderTabela(lista, isAdmin, targetId);
 }
 
@@ -1035,18 +1065,18 @@ function renderTabela(boletos, isAdmin, targetId){
     html+=`<tr id="row-${b.id}">${checkTd}
       <td><strong>${b.nf}</strong></td><td style="color:var(--text-2);">${b.parcela}</td>
       <td style="font-size:12px;color:var(--text-2);"><span class="cnpj-copiavel" onclick="copiarCNPJ(this,'${b.cnpj||''}')" title="Clique para copiar">${b.cnpj||'—'}</span><span class="cnpj-toast"></span></td>
-      <td style="font-size:12px;font-weight:500;">${b.cliente||'—'}</td><td style="font-weight:500;">${formatMoney(b.valor)}</td>
-      <td>${venc}</td><td style="font-size:12px;">${rep}</td><td>${badge(b.status)}</td>
+      <td style="font-size:12px;font-weight:500;">${b.cliente||'—'}</td><td style="font-weight:500;white-space:nowrap;">${formatMoney(b.valor)}</td>
+      <td style="white-space:nowrap;">${venc}</td><td style="font-size:12px;">${rep}</td><td>${badge(b.status)}</td>
       <td style="white-space:nowrap;">
-        ${b.downloadUrl ? `<button onclick="abrirPrevia('${b.downloadUrl}','${b.nf}','${b.parcela}')" style="font-size:12px;padding:3px 8px;margin-right:4px;">⬇ PDF</button>` : '<span style="font-size:11px;color:#aaa;">Sem PDF</span>'}
-        ${isAdmin ? `<button onclick="abrirModalCobranca(${JSON.stringify(b).replace(/"/g,'&quot;')})" style="font-size:12px;padding:3px 8px;margin-right:4px;" title="Enviar e-mail">✉️</button>` : ''}
-        <button onclick="abrirModalWhatsApp(${JSON.stringify(b).replace(/"/g,'&quot;')})" class="btn-wsp" style="font-size:12px;padding:3px 8px;margin-right:4px;" title="Enviar WhatsApp">💬 WA</button>
-        ${isAdmin ? `<button onclick="editarBoleto(${JSON.stringify(b).replace(/"/g,'&quot;')})" style="font-size:12px;padding:3px 8px;margin-right:4px;">✏️</button>` : ''}
-        ${(isAdmin || usuarioAtual.role === 'representante') ? `<button class="btn-danger" onclick="excluirBoleto('${b.id}')" style="font-size:12px;padding:3px 8px;">🗑️</button>` : ''}
+        ${b.downloadUrl ? `<button onclick="abrirPrevia('${b.downloadUrl}','${b.nf}','${b.parcela}')" class="btn-act">⬇ PDF</button>` : '<span style="font-size:11px;color:#aaa;">Sem PDF</span>'}
+        ${isAdmin ? `<button onclick="abrirModalCobranca(${JSON.stringify(b).replace(/"/g,'&quot;')})" class="btn-act" title="Enviar e-mail">✉️</button>` : ''}
+        <button onclick="abrirModalWhatsApp(${JSON.stringify(b).replace(/"/g,'&quot;')})" class="btn-act btn-wsp" title="Enviar WhatsApp">💬 WA</button>
+        ${isAdmin ? `<button onclick="editarBoleto(${JSON.stringify(b).replace(/"/g,'&quot;')})" class="btn-act">✏️</button>` : ''}
+        ${(isAdmin || usuarioAtual.role === 'representante') ? `<button class="btn-act btn-danger" onclick="excluirBoleto('${b.id}')">🗑️</button>` : ''}
       </td></tr>`;
   });
   const colsCount = (canDelete ? 1 : 0) + cols.length + 1;
-  html+=`</tbody><tfoot class="tbl-total"><tr><td colspan="${colsCount - 2}" style="text-align:right;color:var(--text-2);font-size:12px;">Total da página</td><td style="font-weight:600;">${formatMoney(totalGeral)}</td><td colspan="2"></td></tr></tfoot></table></div>`;
+  html+=`</tbody><tfoot class="tbl-total"><tr><td colspan="${colsCount - 2}" style="text-align:right;color:var(--text-2);font-size:12px;">Total da página</td><td style="font-weight:600;white-space:nowrap;">${formatMoney(totalGeral)}</td><td colspan="2"></td></tr></tfoot></table></div>`;
 
   if (totalPaginas > 1) {
     html += '<div class="pagination">';
